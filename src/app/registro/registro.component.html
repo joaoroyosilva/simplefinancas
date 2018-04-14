@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-6"></div>
+  <div class="col-md-6" [@animacao-form]="estadoForm" (@animacao-form.done)="alteraStatusForm()">
+    <div class="card">
+      <div class="card-header" data-background-color="blue">
+        <h4 class="title">Registro</h4>
+        <p class="category">Entre com seus dados</p>
+      </div>
+      <div class="card-content">
+        <form [formGroup]="form" (ngSubmit)="cadastrar()" novalidate>
+          <div class="form">
+            <mat-form-field>
+              <input matInput placeholder="Nome" formControlName="nome">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="E-mail" formControlName="email">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Senha" [type]="hide ? 'password' : 'text'" formControlName="senha">
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </mat-form-field>
+            <button mat-raised-button type="submit" class="btn btn-info pull-right">
+              <i class="material-icons">person_add</i> Registrar
+            </button>
+            <div class="clearfix"></div>
+            <a routerLink="/auth/login">Ir para login</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

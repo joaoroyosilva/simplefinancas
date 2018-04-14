@@ -1,0 +1,53 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header" data-background-color="blue">
+                        <h4 class="title">Perfil</h4>
+                        <p class="category">Suas informações pessoais</p>
+                    </div>
+                    <div class="card-content">
+                        <form [formGroup]="form" novalidate (ngSubmit)="atualizar()">
+                            <div class="form">
+                                <mat-form-field>
+                                    <input matInput placeholder="Nome" formControlName="nome" />
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Endereço" formControlName="endereco">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Telefone" formControlName="telefone">
+                                </mat-form-field>
+                                <button mat-raised-button class="btn btn-info pull-right">
+                                    <i class="material-icons">autorenew</i> Atualizar
+                                </button>
+                                <div class="clearfix"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-avatar">
+                        <a>
+                            <img class="img" src="../assets/img/usuario.png" />
+                        </a>
+                    </div>
+                    <div class="content">
+                        <h6 class="category text-gray">Seja Bem Vindo!</h6>
+                        <h4 class="card-title"></h4>
+                        <p class="card-content">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id nunc rutrum, vulputate turpis id, placerat mauris. Aliquam
+                            ornare pretium diam. In hac habitasse platea dictumst. Pellentesque dignissim, mi id interdum
+                            tempus, tellus nulla eleifend metus, id gravida sapien odio sed velit. Quisque blandit turpis
+                            ullamcorper felis faucibus, eget rutrum massa fringilla. Nulla sed finibus est. Duis aliquet
+                            nibh ut orci ornare, rhoncus ornare ex ullamcorper.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

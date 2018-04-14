@@ -1,0 +1,48 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <button mat-fab (click)="openDialog()">
+          <mat-icon aria-label="Inserir nova categoria">add</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header" data-background-color="blue">
+            <h4 class="title">Categorias de Lançamentos</h4>
+            <p class="category">Listagem de categorias de lançamentos</p>
+          </div>
+          <div class="card-content table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>
+                    <b>Nome</b>
+                  </th>
+                  <th><b>Tipo</b></th>
+                  <th><b>Opções</b></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let categoria of categorias">
+                  <td>{{ categoria.nome }}</td>
+                  <td>{{ categoria.tipo }}</td>
+                  <td>
+                    <button mat-mini-fab color="primary">
+                      <mat-icon aria-label="Editar categoria">edit</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="warn">
+                      <mat-icon aria-label="Editar categoria">delete</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
