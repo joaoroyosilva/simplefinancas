@@ -38,7 +38,6 @@ export class CategoriaModalComponent implements OnInit {
   inserirCategoria(): void {
     this.form.controls['nome'].markAsTouched();
     this.form.controls['tipo'].markAsTouched();
-    console.log(this.form.value);
     if (this.form.valid) {
       let categoria = new CategoriaLancamento();
       categoria.nome = this.form.controls['nome'].value;

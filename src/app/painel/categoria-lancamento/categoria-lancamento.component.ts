@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { CategoriaLancamento } from '../../shared/models/categoria-lancamento.model';
 import { FirebaseService } from '../../shared/services/firebase.service';
 import { CategoriaModalComponent } from './modal/categoria-modal.component';
+import { DeletaCategoriaComponent } from './deleta-categoria/deleta-categoria.component';
 
 @Component({
   selector: 'app-categoria-lancamento',
@@ -29,15 +30,26 @@ export class CategoriaLancamentoComponent implements OnInit {
     })
   }
 
-  openDialog(): void {
+  addDialog(): void {
     let dialogRef = this.dialog.open(CategoriaModalComponent, {
       width: '400px',
-      height: '250px',
+      height: '150px',
       data: { categoria: this.categoria }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       this.categoria = new CategoriaLancamento();
+    });
+  }
+
+  delDialog(categoria: CategoriaLancamento): void {
+    let dialogRef = this.dialog.open(DeletaCategoriaComponent, {
+      width: '400px',
+      height: '250px',
+      data: { categoria: categoria }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
     });
   }
 

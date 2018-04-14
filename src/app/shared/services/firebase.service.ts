@@ -64,4 +64,14 @@ export class FirebaseService implements OnInit {
         })
     })
   }
+
+  delCategoria(categoria: CategoriaLancamento): Promise<any> {
+    return new Promise((resolve, reject) => {
+      firebase.database().ref(`${btoa(localStorage.getItem('email'))}/categorias-lancamento/${categoria.key}`)
+        .remove()
+        .then((resp: any) => {
+          this.messageService.sucesso('Categoria excluída com sucesso!');
+        })
+    })
+  }
 }

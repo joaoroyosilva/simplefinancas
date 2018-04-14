@@ -22,6 +22,7 @@ import { FirebaseService } from '../shared/services/firebase.service';
 import { EntradasComponent } from './entradas/entradas.component';
 import { CategoriaLancamentoComponent } from './categoria-lancamento/categoria-lancamento.component';
 import { CategoriaModalComponent } from './categoria-lancamento/modal/categoria-modal.component';
+import { DeletaCategoriaComponent } from './categoria-lancamento/deleta-categoria/deleta-categoria.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { CategoriaModalComponent } from './categoria-lancamento/modal/categoria-
     EntradasComponent,
     CategoriaLancamentoComponent,
     CategoriaModalComponent,
+    DeletaCategoriaComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ import { CategoriaModalComponent } from './categoria-lancamento/modal/categoria-
     FirebaseService
   ],
   entryComponents:[
-    CategoriaModalComponent
+    CategoriaModalComponent,
+    DeletaCategoriaComponent
   ]
 })
 export class PainelModule { }
