@@ -1,14 +1,20 @@
-<h2 mat-dialog-title>Novo Categoria de Lançamento</h2>
+<h2 mat-dialog-title>Nova Categoria de Lançamento</h2>
 <mat-dialog-content>
-  <div class="form">
-    <mat-form-field>
-      <input matInput placeholder="Nome" [(ngModel)]="categoria.nome" />
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Tipo" [(ngModel)]="categoria.tipo" />
-    </mat-form-field>
-  </div>
+  <form novalidate [formGroup]="form">
+    <div class="form">
+      <mat-form-field>
+        <input matInput placeholder="Nome" formControlName="nome" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Tipo" formControlName="tipo">
+          <mat-option *ngFor="let tipo of tipos" [value]="tipo">
+            {{ tipo }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="true" (click)="inserirCategoria()">Adicionar</button>
+  <button mat-raised-button color="primary" (click)="inserirCategoria()">Adicionar</button>
 </mat-dialog-actions>

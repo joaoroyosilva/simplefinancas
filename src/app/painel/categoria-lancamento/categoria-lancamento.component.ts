@@ -32,6 +32,7 @@ export class CategoriaLancamentoComponent implements OnInit {
   openDialog(): void {
     let dialogRef = this.dialog.open(CategoriaModalComponent, {
       width: '400px',
+      height: '250px',
       data: { categoria: this.categoria }
     });
 
