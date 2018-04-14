@@ -1,9 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing';
+
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+registerLocaleData(localePt);
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -33,7 +38,8 @@ import { MaterialModule } from './material.module';
   providers: [
     AuthService,
     MessageService,
-    AuthGuard
+    AuthGuard,
+    { provide: LOCALE_ID, useValue: 'pt-Br' }
   ],
   bootstrap: [AppComponent]
 })

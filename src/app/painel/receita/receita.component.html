@@ -1,0 +1,64 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <button mat-fab (click)="catDialog()">
+          <mat-icon aria-label="Nova Receita">add</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header" data-background-color="blue">
+            <h4 class="title">Receitas</h4>
+            <p class="category">Listagem de lançamentos de receitas</p>
+          </div>
+          <div class="card-content table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>
+                    <b>Documento</b>
+                  </th>
+                  <th>
+                    <b>Categoria</b>
+                  </th>
+                  <th>
+                    <b>Emissão</b>
+                  </th>
+                  <th>
+                    <b>Vencimento</b>
+                  </th>
+                  <th>
+                    <b>Valor</b>
+                  </th>
+                  <th>
+                    <b>Opções</b>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let receita of receitas">
+                  <td>{{ receita.documento }}</td>
+                  <td>{{ receita.categoria }}</td>
+                  <td>{{ receita.emissao | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ receita.vencimento | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ receita.valor | currency:'BRL' }}</td>
+                  <td>
+                    <button mat-icon-button color="primary" (click)="catDialog(receita)">
+                      <mat-icon aria-label=" Editar receita ">edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="delDialog(receita) ">
+                      <mat-icon aria-label="Deletar receita ">delete</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

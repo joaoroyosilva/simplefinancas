@@ -4,6 +4,7 @@ import { Usuario } from '../models/usuario.model';
 import { MessageService } from './message.service';
 import { AuthService } from './auth.service';
 import { CategoriaLancamento } from '../models/categoria-lancamento.model';
+import { Receita } from 'app/shared/models/receita.model';
 
 @Injectable()
 export class FirebaseService implements OnInit {
@@ -63,6 +64,7 @@ export class FirebaseService implements OnInit {
 
   pushCategoria(categoria: CategoriaLancamento): Promise<any> {
     return new Promise((resolve, reject) => {
+      delete categoria.key;
       firebase.database().ref(`${btoa(localStorage.getItem('email'))}/categorias-lancamento`)
         .push(categoria)
         .then((resp: any) => {
@@ -83,10 +85,64 @@ export class FirebaseService implements OnInit {
 
   updateCategoria(categoria: CategoriaLancamento): Promise<any> {
     return new Promise((resolve, reject) => {
-      firebase.database().ref(`${btoa(localStorage.getItem('email'))}/categorias-lancamento/${categoria.key}`)
+      let key = categoria.key;
+      delete categoria.key;
+      firebase.database().ref(`${btoa(localStorage.getItem('email'))}/categorias-lancamento/${key}`)
         .update(categoria)
         .then((resp: any) => {
           this.messageService.sucesso('Categoria editada com sucesso!');
+        })
+    })
+  }
+
+  getReceitas(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let receitas: Receita[] = [];
+      firebase.database().ref(`${btoa(localStorage.getItem('email'))}/receitas`)
+        .orderByKey()
+        .once('value')
+        .then((snapshot: any) => {
+          snapshot.forEach((childSnapshot: any) => {
+            let receita: Receita = new Receita();
+            receita = childSnapshot.val();
+            receita.key = childSnapshot.key;
+            receitas.push(receita);
+          })
+          //console.log(categorias);
+          resolve(receitas);
+        })
+    })
+  }
+
+  pushReceita(receita: Receita): Promise<any> {
+    return new Promise((resolve, reject) => {
+      delete receita.key;
+      firebase.database().ref(`${btoa(localStorage.getItem('email'))}/receitas`)
+        .push(receita)
+        .then((resp: any) => {
+          this.messageService.sucesso('Receita inserida com sucesso!');
+        })
+    })
+  }
+
+  delReceita(receita: Receita): Promise<any> {
+    return new Promise((resolve, reject) => {
+      firebase.database().ref(`${btoa(localStorage.getItem('email'))}/receitas/${receita.key}`)
+        .remove()
+        .then((resp: any) => {
+          this.messageService.sucesso('Receita excluída com sucesso!');
+        })
+    })
+  }
+
+  updateReceita(receita: Receita): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let key = receita.key;
+      delete receita.key;
+      firebase.database().ref(`${btoa(localStorage.getItem('email'))}/receitas/${key}`)
+        .update(receita)
+        .then((resp: any) => {
+          this.messageService.sucesso('Receita editada com sucesso!');
         })
     })
   }

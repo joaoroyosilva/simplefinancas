@@ -15,7 +15,6 @@ import { DeletaCategoriaComponent } from './deleta-categoria/deleta-categoria.co
 export class CategoriaLancamentoComponent implements OnInit, OnDestroy {
 
   categorias: CategoriaLancamento[] = [];
-  categoria: CategoriaLancamento = new CategoriaLancamento();
   atualiza: Observable<any>;
   atualizando: Subscription;
 
@@ -44,7 +43,6 @@ export class CategoriaLancamentoComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.categoria = new CategoriaLancamento();
     });
   }
 

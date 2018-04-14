@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Deletar Receita</h2>
+<mat-dialog-content>
+  <p>
+    Tem certeza que deseja deletar o ducomento
+    <b>{{ receita.documento }}</b> ?
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="deletar()">
+    <mat-icon aria-label="Deletar Categoria">delete</mat-icon> Deletar
+  </button>
+  <button mat-raised-button [mat-dialog-close]="true">
+    <mat-icon aria-label="Deletar Categoria">clear</mat-icon> Cancelar
+  </button>
+</mat-dialog-actions>

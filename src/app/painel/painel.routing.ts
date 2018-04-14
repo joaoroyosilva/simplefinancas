@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { EntradasComponent } from './entradas/entradas.component';
+import { ReceitaComponent } from './receita/receita.component';
 import { CategoriaLancamentoComponent } from './categoria-lancamento/categoria-lancamento.component';
 import { TypographyComponent } from './typography/typography.component';
 import { IconsComponent } from './icons/icons.component';
@@ -25,7 +25,7 @@ import { AuthGuard } from 'app/auth-guard';
         children: [
           { path: 'dashboard', component: DashboardComponent },
           { path: 'user-profile', component: UserProfileComponent },
-          { path: 'entradas', component: EntradasComponent },
+          { path: 'receitas', component: ReceitaComponent },
           { path: 'typography', component: TypographyComponent },
           { path: 'categoria-lancamento', component: CategoriaLancamentoComponent },
           { path: 'maps', component: MapsComponent },
