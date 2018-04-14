@@ -41,6 +41,7 @@ export class FirebaseService implements OnInit {
     return new Promise((resolve, reject) => {
       let categorias: CategoriaLancamento[] = [];
       firebase.database().ref(`${btoa(localStorage.getItem('email'))}/categorias-lancamento`)
+        .orderByKey()
         .once('value')
         .then((snapshot: any) => {
           snapshot.forEach((childSnapshot: any) => {

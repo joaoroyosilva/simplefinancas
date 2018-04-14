@@ -1,7 +1,9 @@
 <h2 mat-dialog-title>Deletar Categoria de Lançamento</h2>
 <mat-dialog-content>
-  Tem certeza que deseja deletar a categoria
-  <b>{{ categoria.nome }}</b>
+  <p>
+    Tem certeza que deseja deletar a categoria
+    <b>{{ categoria.nome }}</b> ?
+  </p>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-raised-button color="warn" (click)="deletar()">
