@@ -22,6 +22,8 @@
                                 <button mat-raised-button class="btn btn-info pull-right">
                                     <i class="material-icons">autorenew</i> Atualizar
                                 </button>
+                                <mat-progress-bar *ngIf="enviando" mode="indeterminate">
+                                </mat-progress-bar>
                                 <div class="clearfix"></div>
                             </div>
                         </form>

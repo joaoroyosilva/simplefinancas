@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
 
   estadoLogin: string = 'criado';
   hide = true;
+  enviando: boolean = false;
 
   form: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),
@@ -54,10 +55,18 @@ export class LoginComponent implements OnInit {
 
   public autenticar(): void {
     if (this.form.valid) {
-      let auth = this.authService.autenticar(
-        this.form.value.email,
-        this.form.value.senha
-      )
+      this.enviando = true;
+      this.authService.autenticar(this.form.value.email, this.form.value.senha)
+        .then(
+          (resp) => {
+            this.enviando = false;
+          })
+        .catch(
+          (erro) => {
+            this.estadoLogin = 'recusado';
+            this.enviando = false;
+          }
+        )
     } else {
       this.estadoLogin = 'recusado';
       this.messageService.erro('Confira todos os campos!');

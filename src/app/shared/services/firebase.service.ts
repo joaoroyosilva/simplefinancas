@@ -28,13 +28,18 @@ export class FirebaseService implements OnInit {
     })
   }
 
-  updateUsuario(usuario: Usuario): void {
-    delete usuario.senha;
-    //console.log(usuario);
-    firebase.database().ref(`${btoa(localStorage.getItem('email'))}/usuario`)
-      .set(usuario)
-      .then((resp) => this.messageService.sucesso('Dados Atualizados com sucesso!'))
-      .catch((erro) => this.messageService.erro('Não foi possível atualizar os dados!'))
+  updateUsuario(usuario: Usuario): Promise<any> {
+    return new Promise((resolve, reject) => {
+      delete usuario.senha;
+      //console.log(usuario);
+      firebase.database().ref(`${btoa(localStorage.getItem('email'))}/usuario`)
+        .set(usuario)
+        .then((resp) => {
+          this.messageService.sucesso('Dados Atualizados com sucesso!');
+          resolve()
+        })
+        .catch((erro) => this.messageService.erro('Não foi possível atualizar os dados!'))
+    });
   }
 
   getCategorias(): Promise<any> {
@@ -81,7 +86,7 @@ export class FirebaseService implements OnInit {
       firebase.database().ref(`${btoa(localStorage.getItem('email'))}/categorias-lancamento/${categoria.key}`)
         .update(categoria)
         .then((resp: any) => {
-          this.messageService.sucesso('Categoria excluída com sucesso!');
+          this.messageService.sucesso('Categoria editada com sucesso!');
         })
     })
   }

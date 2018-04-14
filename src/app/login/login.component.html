@@ -19,6 +19,8 @@
             <button mat-raised-button (click)="autenticar()" class="btn btn-info pull-right">
               <i class="material-icons">check</i> Entrar
             </button>
+            <mat-progress-bar *ngIf="enviando" mode="indeterminate">
+            </mat-progress-bar>
             <div class="clearfix"></div>
             <a routerLink="/auth/registro">Registrar-se</a>
           </div>

@@ -29,23 +29,24 @@ export class AuthService {
       })
   }
 
-  public autenticar(email: string, senha: string): boolean {
-    let auth: boolean = false;
-    firebase.auth().signInWithEmailAndPassword(email, senha)
-      .then((resposta: any) => {
-        firebase.auth().currentUser.getIdToken()
-          .then((idToken: string) => {
-            auth = true;
-            localStorage.setItem('email', email)
-            this.token_id = idToken
-            localStorage.setItem('idToken', idToken)
-            this.router.navigate(['/painel'])
-          })
-      }).catch((error: Error) => {
-        this.messageService.erro('Usuário/Senha inválidos!');
-        auth = false;
-      })
-    return auth;
+  public autenticar(email: string, senha: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      firebase.auth().signInWithEmailAndPassword(email, senha)
+        .then((resposta: any) => {
+          firebase.auth().currentUser.getIdToken()
+            .then((idToken: string) => {
+              localStorage.setItem('email', email)
+              this.token_id = idToken
+              localStorage.setItem('idToken', idToken)
+              this.router.navigate(['/painel'])
+              resolve()
+            })
+        }).catch((error: Error) => {
+          reject()
+          this.messageService.erro('Usuário/Senha inválidos!');
+        })
+    })
+
   }
 
   public autenticado(): boolean {
