@@ -56,7 +56,7 @@ export class FirebaseService implements OnInit {
     })
   }
 
-  setCategoria(categoria: CategoriaLancamento): Promise<any> {
+  pushCategoria(categoria: CategoriaLancamento): Promise<any> {
     return new Promise((resolve, reject) => {
       firebase.database().ref(`${btoa(localStorage.getItem('email'))}/categorias-lancamento`)
         .push(categoria)
@@ -70,6 +70,16 @@ export class FirebaseService implements OnInit {
     return new Promise((resolve, reject) => {
       firebase.database().ref(`${btoa(localStorage.getItem('email'))}/categorias-lancamento/${categoria.key}`)
         .remove()
+        .then((resp: any) => {
+          this.messageService.sucesso('Categoria excluída com sucesso!');
+        })
+    })
+  }
+
+  updateCategoria(categoria: CategoriaLancamento): Promise<any> {
+    return new Promise((resolve, reject) => {
+      firebase.database().ref(`${btoa(localStorage.getItem('email'))}/categorias-lancamento/${categoria.key}`)
+        .update(categoria)
         .then((resp: any) => {
           this.messageService.sucesso('Categoria excluída com sucesso!');
         })

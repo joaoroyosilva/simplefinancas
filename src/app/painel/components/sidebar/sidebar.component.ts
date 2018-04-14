@@ -14,8 +14,6 @@ export const ROUTES: RouteInfo[] = [
     { path: 'categoria-lancamento', title: 'Categorias', icon: 'description', class: '' },
     { path: 'entradas', title: 'Entradas', icon: 'trending_up', class: '' },
     { path: 'typography', title: 'Saídas', icon: 'trending_down', class: '' },
-    { path: 'maps', title: 'Maps', icon: 'location_on', class: '' },
-    { path: 'notifications', title: 'Notifications', icon: 'notifications', class: '' },
 ];
 
 @Component({

@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <button mat-fab (click)="addDialog()">
+        <button mat-fab (click)="catDialog()">
           <mat-icon aria-label="Nova Categoria">add</mat-icon>
         </button>
       </div>
@@ -34,11 +34,11 @@
                   <td>{{ categoria.nome }}</td>
                   <td>{{ categoria.tipo }}</td>
                   <td>
-                    <button mat-mini-fab color="primary">
-                      <mat-icon aria-label="Editar categoria">edit</mat-icon>
+                    <button mat-mini-fab color="primary" (click)="catDialog(categoria)">
+                      <mat-icon aria-label=" Editar categoria ">edit</mat-icon>
                     </button>
-                    <button mat-mini-fab color="warn" (click)="delDialog(categoria)">
-                      <mat-icon aria-label="Deletar categoria">delete</mat-icon>
+                    <button mat-mini-fab color="warn" (click)="delDialog(categoria) ">
+                      <mat-icon aria-label="Deletar categoria ">delete</mat-icon>
                     </button>
                   </td>
                 </tr>

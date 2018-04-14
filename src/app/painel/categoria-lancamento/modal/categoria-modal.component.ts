@@ -42,7 +42,12 @@ export class CategoriaModalComponent implements OnInit {
       let categoria = new CategoriaLancamento();
       categoria.nome = this.form.controls['nome'].value;
       categoria.tipo = this.form.controls['tipo'].value;
-      this.firebaseService.setCategoria(categoria);
+      categoria.key = this.data.categoria.key;
+      if (categoria.key == '') {
+        this.firebaseService.pushCategoria(categoria);
+      } else {
+        this.firebaseService.updateCategoria(categoria);
+      }
       this.dialogRef.close();
     } else {
       this.messageService.erro('Preencha todos os campos!');
