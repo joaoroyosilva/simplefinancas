@@ -51,7 +51,13 @@ export class ReceitaModalComponent implements OnInit {
   ngOnInit() {
     this.firebaseService.getCategorias().then(
       (categorias: any) => {
-        this.categorias = categorias;
+        //console.log(this.categorias);
+        categorias.forEach((categoria: any) => {
+          //console.log(categoria);
+          if (categoria.tipo === 'Receitas') {
+            this.categorias.push(categoria);
+          }
+        })
       }
     )
     this.form.controls['documento'].setValue(this.data.receita.documento);
