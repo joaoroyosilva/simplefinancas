@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Observable, Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 import { CategoriaLancamento } from '../../shared/models/categoria-lancamento.model';
 import { FirebaseService } from '../../shared/services/firebase.service';
@@ -47,14 +48,20 @@ export class CategoriaLancamentoComponent implements OnInit, OnDestroy {
   }
 
   delDialog(categoria: CategoriaLancamento): void {
-    let dialogRef = this.dialog.open(DeletaCategoriaComponent, {
-      width: '400px',
-      height: '250px',
-      data: { categoria: categoria }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-    });
+    Swal({
+      title: 'Deseja excluir categoria?',
+      text: `Nome da categoria: ${categoria.nome}`,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Não, cancelar!',
+      confirmButtonText: 'Sim, excluir!'
+    }).then((result) => {
+      if (result.value) {
+        this.firebaseService.delCategoria(categoria)
+      }
+    })
   }
 
 }

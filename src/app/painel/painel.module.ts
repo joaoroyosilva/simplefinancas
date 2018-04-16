@@ -22,9 +22,9 @@ import { FirebaseService } from '../shared/services/firebase.service';
 import { ReceitaComponent } from './receita/receita.component';
 import { CategoriaLancamentoComponent } from './categoria-lancamento/categoria-lancamento.component';
 import { CategoriaModalComponent } from './categoria-lancamento/modal/categoria-modal.component';
-import { DeletaCategoriaComponent } from './categoria-lancamento/deleta-categoria/deleta-categoria.component';
+//import { DeletaCategoriaComponent } from './categoria-lancamento/deleta-categoria/deleta-categoria.component';
 import { ReceitaModalComponent } from './receita/modal/receita-modal.component';
-import { DeletaReceitaComponent } from './receita/deleta-receita/deleta-receita.component';
+//import { DeletaReceitaComponent } from './receita/deleta-receita/deleta-receita.component';
 
 @NgModule({
   declarations: [
@@ -39,10 +39,10 @@ import { DeletaReceitaComponent } from './receita/deleta-receita/deleta-receita.
     PainelComponent,
     ReceitaComponent,
     ReceitaModalComponent,
-    DeletaReceitaComponent,
+    //DeletaReceitaComponent,
     CategoriaLancamentoComponent,
     CategoriaModalComponent,
-    DeletaCategoriaComponent,
+    //DeletaCategoriaComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,9 +60,9 @@ import { DeletaReceitaComponent } from './receita/deleta-receita/deleta-receita.
   ],
   entryComponents:[
     CategoriaModalComponent,
-    DeletaCategoriaComponent,
+    //DeletaCategoriaComponent,
     ReceitaModalComponent,
-    DeletaReceitaComponent
+    //DeletaReceitaComponent
   ]
 })
 export class PainelModule { }

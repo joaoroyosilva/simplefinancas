@@ -1,5 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
+import Swal from 'sweetalert2';
 import { Usuario } from '../models/usuario.model';
 import { MessageService } from './message.service';
 import { AuthService } from './auth.service';
@@ -33,6 +34,7 @@ export class FirebaseService implements OnInit {
     return new Promise((resolve, reject) => {
       delete usuario.senha;
       //console.log(usuario);
+      usuario.email = localStorage.getItem('email');
       firebase.database().ref(`${btoa(localStorage.getItem('email'))}/usuario`)
         .set(usuario)
         .then((resp) => {
@@ -78,7 +80,11 @@ export class FirebaseService implements OnInit {
       firebase.database().ref(`${btoa(localStorage.getItem('email'))}/categorias-lancamento/${categoria.key}`)
         .remove()
         .then((resp: any) => {
-          this.messageService.sucesso('Categoria excluída com sucesso!');
+          Swal(
+            'Deletada!',
+            'Categoria deletada com sucesso!',
+            'success'
+          )
         })
     })
   }
@@ -130,7 +136,11 @@ export class FirebaseService implements OnInit {
       firebase.database().ref(`${btoa(localStorage.getItem('email'))}/receitas/${receita.key}`)
         .remove()
         .then((resp: any) => {
-          this.messageService.sucesso('Receita excluída com sucesso!');
+          Swal(
+            'Deletada!',
+            'Receita deletada com sucesso!',
+            'success'
+          )
         })
     })
   }

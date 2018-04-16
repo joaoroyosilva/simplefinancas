@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Observable, Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 import { Receita } from '../../shared/models/receita.model';
 import { FirebaseService } from '../../shared/services/firebase.service';
@@ -47,14 +48,20 @@ export class ReceitaComponent implements OnInit, OnDestroy {
   }
 
   delDialog(receita: Receita): void {
-    let dialogRef = this.dialog.open(DeletaReceitaComponent, {
-      width: '400px',
-      height: '250px',
-      data: { receita: receita }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-    });
+    Swal({
+      title: 'Deseja excluir receita?',
+      text: `Número do documento: ${receita.documento}`,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Não, cancelar!',
+      confirmButtonText: 'Sim, excluir!'
+    }).then((result) => {
+      if (result.value) {
+        this.firebaseService.delReceita(receita)
+      }
+    })
   }
 
 }
