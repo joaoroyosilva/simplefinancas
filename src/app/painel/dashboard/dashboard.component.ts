@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as Chartist from 'chartist';
-
+import * as moment from 'moment';
 
 import { GraficosService } from '../../shared/services/graficos.service';
 import { Receita } from '../../shared/models/receita.model';
@@ -11,10 +11,12 @@ import { Subscription, Observable } from 'rxjs';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
 
-  receitas: Array<Receita> = [];
+  hora_receitas: any;
+  atualiza_receitas: Subscription;
+
 
   constructor(private graficosService: GraficosService) { }
   startAnimationForLineChart(chart) {
@@ -73,34 +75,13 @@ export class DashboardComponent implements OnInit {
 
     seq2 = 0;
   };
+
   ngOnInit() {
-
-    this.graficosService.getReceitas().then(
-      (receitas: any) => {
-
-        this.receitas = receitas;
-        //console.log('atualizou', this.receitas)
-        /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
-
-        const dataDailySalesChart: any = {
-          labels: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-          series: [
-            this.receitas
-          ]
-        };
-
-        const optionsDailySalesChart: any = {
-          lineSmooth: Chartist.Interpolation.cardinal({
-            tension: 0
-          }),
-          low: 0,
-          high: Math.max.apply(null, this.receitas) * 1.1, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-          chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
-        }
-
-        var recebimentosSemana = new Chartist.Line('#recebimentosSemana', dataDailySalesChart, optionsDailySalesChart);
-
-        this.startAnimationForLineChart(recebimentosSemana);
+    this.atualizaReceitas();
+    let observable_receitas: Observable<any> = Observable.interval(600000);
+    this.atualiza_receitas = observable_receitas.subscribe(
+      (interval) => {
+        this.atualizaReceitas();
       }
     )
 
@@ -163,4 +144,37 @@ export class DashboardComponent implements OnInit {
     this.startAnimationForBarChart(emailsSubscriptionChart);
   }
 
+  ngOnDestroy() {
+    this.atualiza_receitas.unsubscribe();
+  }
+
+  atualizaReceitas(): void {
+    this.graficosService.getReceitas().then(
+      (receitas: any) => {
+        //console.log('atualizou', this.receitas)
+        /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
+
+        this.hora_receitas = new Date();
+        const dataDailySalesChart: any = {
+          labels: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+          series: [
+            receitas
+          ]
+        };
+
+        const optionsDailySalesChart: any = {
+          lineSmooth: Chartist.Interpolation.cardinal({
+            tension: 0
+          }),
+          low: 0,
+          high: Math.max.apply(null, receitas) * 1.101, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+          chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
+        }
+
+        var receitasSemana = new Chartist.Line('#receitasSemana', dataDailySalesChart, optionsDailySalesChart);
+
+        this.startAnimationForLineChart(receitasSemana);
+      }
+    )
+  }
 }

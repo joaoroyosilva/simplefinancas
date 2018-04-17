@@ -2,11 +2,15 @@ import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Observable, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
+
+import { Utils } from '../../shared/utils/utils';
 
 import { Receita } from '../../shared/models/receita.model';
 import { FirebaseService } from '../../shared/services/firebase.service';
 import { ReceitaModalComponent } from './modal/receita-modal.component';
 //import { DeletaReceitaComponent } from './deleta-receita/deleta-receita.component';
+
 
 @Component({
   selector: 'app-receita',
@@ -19,6 +23,8 @@ export class ReceitaComponent implements OnInit, OnDestroy {
   atualiza: Observable<any>;
   atualizando: Subscription;
 
+  data;
+
   constructor(private firebaseService: FirebaseService, public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -26,6 +32,7 @@ export class ReceitaComponent implements OnInit, OnDestroy {
     this.atualizando = this.atualiza.subscribe((interval) => {
       this.firebaseService.getReceitas().then(
         (receitas: any) => {
+          this.data = moment(new Utils().getDataAtual());
           this.receitas = receitas;
         }
       )

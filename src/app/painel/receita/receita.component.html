@@ -22,6 +22,9 @@
                     <b>Documento</b>
                   </th>
                   <th>
+                    <b>Histórico</b>
+                  </th>
+                  <th>
                     <b>Categoria</b>
                   </th>
                   <th>
@@ -42,27 +45,24 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let receita of receitas">
+                <tr *ngFor="let receita of receitas" [ngClass]="{
+                  'danger':data.isAfter(receita.vencimento)&&receita.quitada=='false',
+                  'warning':data.isSame(receita.vencimento)&&receita.quitada=='false',
+                  'info':receita.quitada=='true'}">
                   <td>{{ receita.documento }}</td>
+                  <td>{{ receita.historico }}</td>
                   <td>{{ receita.categoria }}</td>
                   <td>{{ receita.emissao | date:'dd/MM/yyyy' }}</td>
                   <td>{{ receita.vencimento | date:'dd/MM/yyyy' }}</td>
                   <td>{{ receita.valor | currency:'BRL' }}</td>
                   <td>{{ (receita.quitada=='true')?'Quitada':'Aberta' }}</td>
                   <td>
-                    <button mat-icon-button [matMenuTriggerFor]="menu">
-                      <mat-icon>more_vert</mat-icon>
+                    <button mat-icon-button color="primary" (click)="catDialog(receita)">
+                      <mat-icon aria-label="Editar receita">edit</mat-icon>
                     </button>
-                    <mat-menu #menu="matMenu" [overlapTrigger]="false">
-                      <button mat-button color="primary" (click)="catDialog(receita)">
-                        <mat-icon aria-label="Editar receita">edit</mat-icon>
-                        <span>Editar</span>
-                      </button>
-                      <button mat-button color="warn" (click)="delDialog(receita) ">
-                        <mat-icon aria-label="Deletar receita ">delete</mat-icon>
-                        <span>Excluir</span>
-                      </button>
-                    </mat-menu>
+                    <button mat-icon-button color="warn" (click)="delDialog(receita) ">
+                      <mat-icon aria-label="Deletar receita ">delete</mat-icon>
+                    </button>
                   </td>
                 </tr>
               </tbody>

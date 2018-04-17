@@ -9,6 +9,11 @@
     <div class="form">
       <mat-form-field>
         <input matInput placeholder="Documento" formControlName="documento" />
+        <mat-error *ngIf="!form.get('documento').valid">Campo obrigatório</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Histórico" formControlName="historico" />
+        <mat-error *ngIf="!form.get('historico').valid">Campo obrigatório</mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-select placeholder="Categoria" formControlName="categoria">
@@ -16,22 +21,26 @@
             {{ categoria.nome }}
           </mat-option>
         </mat-select>
+        <mat-error *ngIf="!form.get('categoria').valid">Campo obrigatório</mat-error>
       </mat-form-field>
       <mat-form-field>
         <input matInput [matDatepicker]="emissao" placeholder="Emissão" formControlName="emissao" />
         <mat-datepicker-toggle matSuffix [for]="emissao"></mat-datepicker-toggle>
         <mat-datepicker #emissao></mat-datepicker>
+        <mat-error *ngIf="!form.get('emissao').valid">Campo obrigatório</mat-error>
       </mat-form-field>
       <mat-form-field>
         <input matInput [matDatepicker]="vencimento" placeholder="Vencimento" formControlName="vencimento" />
         <mat-datepicker-toggle matSuffix [for]="vencimento"></mat-datepicker-toggle>
         <mat-datepicker #vencimento></mat-datepicker>
+        <mat-error *ngIf="!form.get('vencimento').valid">Campo obrigatório</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Valor" type="number" formControlName="valor" />
+        <input matInput placeholder="Valor" formControlName="valor" />
+        <mat-error *ngIf="!form.get('valor').valid">Campo obrigatório</mat-error>
       </mat-form-field>
       <label>Quitada? </label>
-      <mat-radio-group formControlName="quitada">
+      <mat-radio-group formControlName="quitada" (change)="quitada()">
         <mat-radio-button value="true">
           Sim
         </mat-radio-button>
@@ -40,15 +49,16 @@
         </mat-radio-button>
       </mat-radio-group>
       <mat-form-field *ngIf="form.get('quitada').value=='true'">
-        <input matInput placeholder="Valor Quitado" type="number" formControlName="valorquitado" />
+        <input matInput placeholder="Valor Quitado" formControlName="valorquitado" />
       </mat-form-field>
       <mat-form-field *ngIf="form.get('quitada').value=='true'">
         <input matInput [matDatepicker]="quitacao" placeholder="Quitação" formControlName="quitacao" />
         <mat-datepicker-toggle matSuffix [for]="quitacao"></mat-datepicker-toggle>
         <mat-datepicker #quitacao></mat-datepicker>
+        <mat-error *ngIf="!form.get('quitacao').valid">Campo obrigatório</mat-error>
       </mat-form-field>
       <mat-form-field *ngIf="form.get('quitada').value!='true'">
-        <input matInput placeholder="Realizar quantos lançamentos?" type="number" formControlName="qtd_lancamento"/>
+        <input matInput placeholder="Realizar quantos lançamentos?" formControlName="qtd_lancamento" />
       </mat-form-field>
     </div>
   </form>

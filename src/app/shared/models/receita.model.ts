@@ -2,6 +2,7 @@ import * as moment from 'moment';
 
 export class Receita {
     documento: string = '';
+    historico: string = '';
     valor: number = 0;
     vencimento: string = '';
     emissao: string = moment(new Date()).format();

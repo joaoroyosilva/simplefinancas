@@ -55,7 +55,7 @@ import { GraficosService } from '../shared/services/graficos.service';
     ComponentsModule,
     RouterModule,
     PainelRoutingModule,
-    MaterialModule
+    MaterialModule,
   ],
   providers: [
     AuthGuard,

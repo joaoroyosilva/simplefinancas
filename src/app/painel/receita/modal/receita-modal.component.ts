@@ -18,12 +18,13 @@ export class ReceitaModalComponent implements OnInit {
   categorias: CategoriaLancamento[] = [];
   form: FormGroup = new FormGroup({
     documento: new FormControl(null, [Validators.required]),
+    historico: new FormControl(null, [Validators.required, Validators.minLength(3)]),
     categoria: new FormControl(null, [Validators.required]),
     emissao: new FormControl(null, [Validators.required]),
     vencimento: new FormControl(null, [Validators.required]),
-    valor: new FormControl(null, [Validators.required]),
+    valor: new FormControl(null, [Validators.required, Validators.min(0.1)]),
     quitada: new FormControl("false", [Validators.required]),
-    valorquitado: new FormControl(0, [Validators.required]),
+    valorquitado: new FormControl(0),
     quitacao: new FormControl(null),
     qtd_lancamento: new FormControl(1, [Validators.required, Validators.min(1)])
   });
@@ -52,6 +53,7 @@ export class ReceitaModalComponent implements OnInit {
       }
     )
     this.form.controls['documento'].setValue(this.data.receita.documento);
+    this.form.controls['historico'].setValue(this.data.receita.historico);
     this.form.controls['categoria'].setValue(this.data.receita.categoria);
     this.form.controls['emissao'].setValue(moment(this.data.receita.emissao));
     this.form.controls['vencimento'].setValue(moment(this.data.receita.vencimento));
@@ -65,6 +67,7 @@ export class ReceitaModalComponent implements OnInit {
 
   inserirReceita(): void {
     this.form.controls['documento'].markAsTouched();
+    this.form.controls['historico'].markAsTouched();
     this.form.controls['categoria'].markAsTouched();
     this.form.controls['emissao'].markAsTouched();
     this.form.controls['vencimento'].markAsTouched();
@@ -73,28 +76,27 @@ export class ReceitaModalComponent implements OnInit {
     this.form.controls['valorquitado'].markAsTouched();
     this.form.controls['quitacao'].markAsTouched();
     this.form.controls['qtd_lancamento'].markAsTouched();
+    //console.log(this.form);
     if (this.form.valid) {
       for (let i = 0; i < this.form.controls['qtd_lancamento'].value; i++) {
         let receita = new Receita();
         receita.documento = this.form.controls['documento'].value;
+        receita.historico = this.form.controls['historico'].value;
         if (this.form.controls['qtd_lancamento'].value > 1) {
           receita.documento = receita.documento + "-" + i;
         }
         receita.categoria = this.form.controls['categoria'].value;
         receita.emissao = (this.form.controls['emissao'].value).format();
         receita.vencimento = moment(this.form.controls['vencimento'].value).add(i, 'M').format();
-        console.log('vencimento ' + i, receita.vencimento);
         receita.valor = this.form.controls['valor'].value;
         receita.key = this.data.receita.key;
         if (this.form.controls['quitacao'].value) {
           receita.quitacao = (this.form.controls['quitacao'].value).format();
+          receita.valorquitado = this.form.controls['valorquitado'].value;
         }
-        receita.valorquitado = (this.form.controls['valorquitado'].value);
         receita.quitada = (this.form.controls['quitada'].value);
         if (receita.key == '') {
-          this.firebaseService.pushReceita(receita).then(
-            (resp) => console.log(receita)
-          );
+          this.firebaseService.pushReceita(receita);
         } else {
           this.firebaseService.updateReceita(receita);
         }
@@ -104,6 +106,16 @@ export class ReceitaModalComponent implements OnInit {
       this.messageService.erro('Preencha todos os campos!');
     }
 
+  }
+
+  quitada(): void {
+    if (this.form.get('quitada').value) {
+      this.form.get('quitacao').setValidators([Validators.required]);
+      this.form.get('valorquitado').setValidators([Validators.required, Validators.min(0.1)]);
+    } else {
+      this.form.get('quitacao').setValidators([]);
+      this.form.get('valorquitado').setValidators([]);
+    }
   }
 
 }
