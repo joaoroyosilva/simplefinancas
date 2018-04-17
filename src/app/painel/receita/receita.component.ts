@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { Receita } from '../../shared/models/receita.model';
 import { FirebaseService } from '../../shared/services/firebase.service';
 import { ReceitaModalComponent } from './modal/receita-modal.component';
-import { DeletaReceitaComponent } from './deleta-receita/deleta-receita.component';
+//import { DeletaReceitaComponent } from './deleta-receita/deleta-receita.component';
 
 @Component({
   selector: 'app-receita',

@@ -71,6 +71,7 @@ export class FirebaseService implements OnInit {
         .push(categoria)
         .then((resp: any) => {
           this.messageService.sucesso('Categoria inserida com sucesso!');
+          resolve(true);
         })
     })
   }
@@ -96,7 +97,11 @@ export class FirebaseService implements OnInit {
       firebase.database().ref(`${btoa(localStorage.getItem('email'))}/categorias-lancamento/${key}`)
         .update(categoria)
         .then((resp: any) => {
-          this.messageService.sucesso('Categoria editada com sucesso!');
+          Swal(
+            'Editada!',
+            'Categoria editada com sucesso!',
+            'success'
+          )
         })
     })
   }
@@ -127,6 +132,7 @@ export class FirebaseService implements OnInit {
         .push(receita)
         .then((resp: any) => {
           this.messageService.sucesso('Receita inserida com sucesso!');
+          resolve(true);
         })
     })
   }
@@ -152,7 +158,11 @@ export class FirebaseService implements OnInit {
       firebase.database().ref(`${btoa(localStorage.getItem('email'))}/receitas/${key}`)
         .update(receita)
         .then((resp: any) => {
-          this.messageService.sucesso('Receita editada com sucesso!');
+          Swal(
+            'Editada!',
+            'Receita editada com sucesso!',
+            'success'
+          )
         })
     })
   }

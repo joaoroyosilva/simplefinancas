@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { CategoriaLancamento } from '../../shared/models/categoria-lancamento.model';
 import { FirebaseService } from '../../shared/services/firebase.service';
 import { CategoriaModalComponent } from './modal/categoria-modal.component';
-import { DeletaCategoriaComponent } from './deleta-categoria/deleta-categoria.component';
+//import { DeletaCategoriaComponent } from './deleta-categoria/deleta-categoria.component';
 
 @Component({
   selector: 'app-categoria-lancamento',

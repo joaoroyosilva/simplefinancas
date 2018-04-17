@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatInputModule, MatCardModule, MatIconModule, MatDialogModule, MatSelectModule, MatProgressBarModule, MatDatepickerModule } from '@angular/material';
+import { MatButtonModule, MatInputModule, MatCardModule, MatIconModule, MatDialogModule, MatSelectModule, MatProgressBarModule, MatDatepickerModule, MatRadioModule, MatMenuModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -16,7 +16,9 @@ import { MatButtonModule, MatInputModule, MatCardModule, MatIconModule, MatDialo
     MatDialogModule,
     MatSelectModule,
     MatProgressBarModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatRadioModule,
+    MatMenuModule
   ],
   declarations: [],
   exports: [
@@ -29,7 +31,9 @@ import { MatButtonModule, MatInputModule, MatCardModule, MatIconModule, MatDialo
     MatDialogModule,
     MatSelectModule,
     MatProgressBarModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatRadioModule,
+    MatMenuModule
   ]
 })
 export class MaterialModule { }

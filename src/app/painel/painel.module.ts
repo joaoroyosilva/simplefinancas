@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { PainelRoutingModule } from './painel.routing';
 import { ComponentsModule } from './components/components.module';
@@ -24,6 +26,7 @@ import { CategoriaLancamentoComponent } from './categoria-lancamento/categoria-l
 import { CategoriaModalComponent } from './categoria-lancamento/modal/categoria-modal.component';
 //import { DeletaCategoriaComponent } from './categoria-lancamento/deleta-categoria/deleta-categoria.component';
 import { ReceitaModalComponent } from './receita/modal/receita-modal.component';
+import { GraficosService } from '../shared/services/graficos.service';
 //import { DeletaReceitaComponent } from './receita/deleta-receita/deleta-receita.component';
 
 @NgModule({
@@ -56,9 +59,19 @@ import { ReceitaModalComponent } from './receita/modal/receita-modal.component';
   ],
   providers: [
     AuthGuard,
-    FirebaseService
+    FirebaseService,
+    GraficosService,
+    // The locale would typically be provided on the root module of your application. We do it at
+    // the component level here, due to limitations of our example generation script.
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-Br' },
+
+    // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
+    // `MatMomentDateModule` in your applications root module. We provide it at the component level
+    // here, due to limitations of our example generation script.
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ],
-  entryComponents:[
+  entryComponents: [
     CategoriaModalComponent,
     //DeletaCategoriaComponent,
     ReceitaModalComponent,

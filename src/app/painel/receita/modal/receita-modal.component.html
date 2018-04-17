@@ -1,5 +1,5 @@
 <h2 mat-dialog-title *ngIf="!data.receita.key; else editar">
-  Nova Lançamento de Receita
+  Novo Lançamento de Receita
 </h2>
 <ng-template #editar>
   <h2 mat-dialog-title>Editar Lançamento de Receita</h2>
@@ -29,6 +29,26 @@
       </mat-form-field>
       <mat-form-field>
         <input matInput placeholder="Valor" type="number" formControlName="valor" />
+      </mat-form-field>
+      <label>Quitada? </label>
+      <mat-radio-group formControlName="quitada">
+        <mat-radio-button value="true">
+          Sim
+        </mat-radio-button>
+        <mat-radio-button value="false">
+          Não
+        </mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field *ngIf="form.get('quitada').value=='true'">
+        <input matInput placeholder="Valor Quitado" type="number" formControlName="valorquitado" />
+      </mat-form-field>
+      <mat-form-field *ngIf="form.get('quitada').value=='true'">
+        <input matInput [matDatepicker]="quitacao" placeholder="Quitação" formControlName="quitacao" />
+        <mat-datepicker-toggle matSuffix [for]="quitacao"></mat-datepicker-toggle>
+        <mat-datepicker #quitacao></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field *ngIf="form.get('quitada').value!='true'">
+        <input matInput placeholder="Realizar quantos lançamentos?" type="number" formControlName="qtd_lancamento"/>
       </mat-form-field>
     </div>
   </form>
