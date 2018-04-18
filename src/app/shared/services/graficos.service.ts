@@ -29,6 +29,7 @@ export class GraficosService implements OnInit {
         .then((snapshot: any) => {
           snapshot.forEach((childSnapshot: any) => {
             let receita: Receita = new Receita();
+            //console.log('snap', childSnapshot.val());
             receita = childSnapshot.val();
             let data = moment(new Date());
             let data_receita = moment(receita.vencimento);
@@ -36,7 +37,9 @@ export class GraficosService implements OnInit {
               //console.log('dia', data_receita.weekday());
               //console.log('valor atual', receitas[data_receita.weekday()]);
               //console.log('receita', receita.documento + ' - ' + receita.valor);
-              receitas[data_receita.weekday()] = receitas[data_receita.weekday()] + receita.valor
+              //console.log(receita.valor+receita.valor)
+              receitas[data_receita.weekday()] += receita.valor
+              //console.log('nova receita', receitas[data_receita.weekday()])
             }
           })
           //console.log(categorias);

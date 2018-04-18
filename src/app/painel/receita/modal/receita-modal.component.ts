@@ -89,11 +89,11 @@ export class ReceitaModalComponent implements OnInit {
         receita.categoria = this.form.controls['categoria'].value;
         receita.emissao = (this.form.controls['emissao'].value).format();
         receita.vencimento = moment(this.form.controls['vencimento'].value).add(i, 'M').format();
-        receita.valor = this.form.controls['valor'].value;
+        receita.valor = +this.form.controls['valor'].value;
         receita.key = this.data.receita.key;
         if (this.form.controls['quitacao'].value) {
           receita.quitacao = (this.form.controls['quitacao'].value).format();
-          receita.valorquitado = this.form.controls['valorquitado'].value;
+          receita.valorquitado = +this.form.controls['valorquitado'].value;
         }
         receita.quitada = (this.form.controls['quitada'].value);
         if (receita.key == '') {
