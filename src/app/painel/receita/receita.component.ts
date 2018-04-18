@@ -36,8 +36,10 @@ export class ReceitaComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.atualiza = Observable.interval(2000);
     this.atualizando = this.atualiza.subscribe((interval) => {
+    //this.carregando = true;
       this.firebaseService.getReceitas().then(
         (receitas: any) => {
+          //this.carregando = false;
           this.data = moment(new Utils().getDataAtual());
           this.receitas = receitas;
           this.dataSource = new MatTableDataSource(this.receitas);

@@ -29,49 +29,49 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <b>Documento</b>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{row.documento}} </mat-cell>
+                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.quitacao)?'red':''"> {{row.documento}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="historico">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <b>Histórico</b>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{row.historico}} </mat-cell>
+                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.quitacao)?'red':''"> {{row.historico}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="categoria">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <b>Categoria</b>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{row.categoria}} </mat-cell>
+                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.quitacao)?'red':''"> {{row.categoria}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="emissao">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <b>Emissão</b>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{row.emissao | date:'dd/MM/yyyy'}} </mat-cell>
+                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.quitacao)?'red':''"> {{row.emissao | date:'dd/MM/yyyy'}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="vencimento">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <b>Vencimento</b>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{row.vencimento | date:'dd/MM/yyyy'}} </mat-cell>
+                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.quitacao)?'red':''"> {{row.vencimento | date:'dd/MM/yyyy'}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="valor">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <b>Valor</b>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{row.valor | currency:'BRL'}} </mat-cell>
+                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.quitacao)?'red':''"> {{row.valor | currency:'BRL'}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="situacao">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <b>Situação</b>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{(row.quitada=='true')?'Quitada':'Aberta'}} </mat-cell>
+                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.quitacao)?'red':''"> {{(row.quitada=='true')?'Quitada':data.isAfter(row.quitacao)?'Atrasada':'Aberta'}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="opcoes">
@@ -92,7 +92,7 @@
               <mat-row *matRowDef="let row; columns: displayedColumns;">
               </mat-row>
             </mat-table>
-            <mat-paginator [pageSizeOptions]="[10,20,50,100]"></mat-paginator>
+            <mat-paginator [pageSizeOptions]="[10,20,50,100]" [showFirstLastButtons]="true"></mat-paginator>
           </div>
         </div>
       </div>

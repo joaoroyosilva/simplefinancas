@@ -22,6 +22,8 @@ export function getPortuguesePaginatorIntl() {
     paginatorIntl.itemsPerPageLabel = 'Itens por página:';
     paginatorIntl.previousPageLabel = 'Página anterior';
     paginatorIntl.nextPageLabel = 'Próxima página';
+    paginatorIntl.firstPageLabel = 'Primeira página';
+    paginatorIntl.lastPageLabel = 'Última página';
     paginatorIntl.getRangeLabel = portugueseRangeLabel;
 
     return paginatorIntl;
