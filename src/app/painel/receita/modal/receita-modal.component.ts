@@ -8,6 +8,7 @@ import { CategoriaLancamento } from '../../../shared/models/categoria-lancamento
 
 import * as moment from 'moment';
 
+
 @Component({
   selector: 'app-receita-modal',
   templateUrl: './receita-modal.component.html',
@@ -22,7 +23,7 @@ export class ReceitaModalComponent implements OnInit {
     categoria: new FormControl(null, [Validators.required]),
     emissao: new FormControl(null, [Validators.required]),
     vencimento: new FormControl(null, [Validators.required]),
-    valor: new FormControl(null, [Validators.required, Validators.min(0.1)]),
+    valor: new FormControl(0, [Validators.required, Validators.min(0)]),
     quitada: new FormControl("false", [Validators.required]),
     valorquitado: new FormControl(0),
     quitacao: new FormControl(null),
@@ -109,12 +110,14 @@ export class ReceitaModalComponent implements OnInit {
   }
 
   quitada(): void {
-    if (this.form.get('quitada').value) {
+    if (this.form.get('quitada').value == 'true') {
       this.form.get('quitacao').setValidators([Validators.required]);
-      this.form.get('valorquitado').setValidators([Validators.required, Validators.min(0.1)]);
+      this.form.get('valorquitado').setValidators([Validators.required, Validators.min(0)]);
     } else {
-      this.form.get('quitacao').setValidators([]);
-      this.form.get('valorquitado').setValidators([]);
+      this.form.get('quitacao').clearValidators();
+      this.form.get('quitacao').updateValueAndValidity();
+      this.form.get('valorquitado').clearValidators();
+      this.form.get('valorquitado').updateValueAndValidity();
     }
   }
 

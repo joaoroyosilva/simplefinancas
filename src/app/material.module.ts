@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatInputModule, MatCardModule, MatIconModule, MatDialogModule, MatSelectModule, MatProgressBarModule, MatDatepickerModule, MatRadioModule, MatMenuModule } from '@angular/material';
+import { MatButtonModule, MatInputModule, MatCardModule, MatIconModule, MatDialogModule, MatSelectModule, MatProgressBarModule, MatDatepickerModule, MatRadioModule, MatMenuModule, MatGridListModule, MatPaginatorModule, MatTableModule, MatSortModule, MatPaginatorIntl } from '@angular/material';
+import { getPortuguesePaginatorIntl } from './pt-paginator-intl';
 
 @NgModule({
   imports: [
@@ -18,7 +19,11 @@ import { MatButtonModule, MatInputModule, MatCardModule, MatIconModule, MatDialo
     MatProgressBarModule,
     MatDatepickerModule,
     MatRadioModule,
-    MatMenuModule
+    MatMenuModule,
+    MatGridListModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule
   ],
   declarations: [],
   exports: [
@@ -33,7 +38,14 @@ import { MatButtonModule, MatInputModule, MatCardModule, MatIconModule, MatDialo
     MatProgressBarModule,
     MatDatepickerModule,
     MatRadioModule,
-    MatMenuModule
+    MatMenuModule,
+    MatGridListModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule
+  ],
+  providers:[
+    { provide: MatPaginatorIntl, useValue: getPortuguesePaginatorIntl() }
   ]
 })
 export class MaterialModule { }

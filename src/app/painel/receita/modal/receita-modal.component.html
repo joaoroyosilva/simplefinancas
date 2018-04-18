@@ -12,16 +12,16 @@
         <mat-error *ngIf="!form.get('documento').valid">Campo obrigatório</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Histórico" formControlName="historico" />
-        <mat-error *ngIf="!form.get('historico').valid">Campo obrigatório</mat-error>
-      </mat-form-field>
-      <mat-form-field>
         <mat-select placeholder="Categoria" formControlName="categoria">
           <mat-option *ngFor="let categoria of categorias" [value]="categoria.nome">
             {{ categoria.nome }}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="!form.get('categoria').valid">Campo obrigatório</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Histórico" formControlName="historico" />
+        <mat-error *ngIf="!form.get('historico').valid">Campo obrigatório</mat-error>
       </mat-form-field>
       <mat-form-field>
         <input matInput [matDatepicker]="emissao" placeholder="Emissão" formControlName="emissao" />
@@ -37,7 +37,7 @@
       </mat-form-field>
       <mat-form-field>
         <input matInput placeholder="Valor" formControlName="valor" />
-        <mat-error *ngIf="!form.get('valor').valid">Campo obrigatório</mat-error>
+        <mat-error *ngIf="!form.get('valor').valid">Campo obrigatório e maior que zero</mat-error>
       </mat-form-field>
       <label>Quitada? </label>
       <mat-radio-group formControlName="quitada" (change)="quitada()">
@@ -50,6 +50,7 @@
       </mat-radio-group>
       <mat-form-field *ngIf="form.get('quitada').value=='true'">
         <input matInput placeholder="Valor Quitado" formControlName="valorquitado" />
+        <mat-error *ngIf="!form.get('valorquitado').valid">Campo obrigatório e maior que zero</mat-error>
       </mat-form-field>
       <mat-form-field *ngIf="form.get('quitada').value=='true'">
         <input matInput [matDatepicker]="quitacao" placeholder="Quitação" formControlName="quitacao" />

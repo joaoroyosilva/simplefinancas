@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { Component, OnInit, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef, PageEvent, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { Observable, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
@@ -9,8 +9,6 @@ import { Utils } from '../../shared/utils/utils';
 import { Receita } from '../../shared/models/receita.model';
 import { FirebaseService } from '../../shared/services/firebase.service';
 import { ReceitaModalComponent } from './modal/receita-modal.component';
-//import { DeletaReceitaComponent } from './deleta-receita/deleta-receita.component';
-
 
 @Component({
   selector: 'app-receita',
@@ -22,8 +20,16 @@ export class ReceitaComponent implements OnInit, OnDestroy {
   receitas: Receita[] = [];
   atualiza: Observable<any>;
   atualizando: Subscription;
+  carregando: boolean = false;
 
   data;
+
+  displayedColumns = ['documento', 'historico', 'categoria', 'emissao', 'vencimento', 'valor', 'situacao', 'opcoes'];
+  dataSource: MatTableDataSource<Receita>;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
 
   constructor(private firebaseService: FirebaseService, public dialog: MatDialog) { }
 
@@ -34,6 +40,9 @@ export class ReceitaComponent implements OnInit, OnDestroy {
         (receitas: any) => {
           this.data = moment(new Utils().getDataAtual());
           this.receitas = receitas;
+          this.dataSource = new MatTableDataSource(this.receitas);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
         }
       )
     })
@@ -41,6 +50,12 @@ export class ReceitaComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.atualizando.unsubscribe();
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
   }
 
   catDialog(receita: Receita = new Receita()): void {
@@ -70,5 +85,4 @@ export class ReceitaComponent implements OnInit, OnDestroy {
       }
     })
   }
-
 }
