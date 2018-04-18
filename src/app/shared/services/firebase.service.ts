@@ -6,6 +6,7 @@ import { MessageService } from './message.service';
 import { AuthService } from './auth.service';
 import { CategoriaLancamento } from '../models/categoria-lancamento.model';
 import { Receita } from 'app/shared/models/receita.model';
+import { Despesa } from '../models/despesa.model';
 
 @Injectable()
 export class FirebaseService implements OnInit {
@@ -161,6 +162,67 @@ export class FirebaseService implements OnInit {
           Swal(
             'Editada!',
             'Receita editada com sucesso!',
+            'success'
+          )
+        })
+    })
+  }
+
+  getDespesas(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let despesas: Despesa[] = [];
+      firebase.database().ref(`${btoa(localStorage.getItem('email'))}/despesas`)
+        .orderByKey()
+        .once('value')
+        .then((snapshot: any) => {
+          snapshot.forEach((childSnapshot: any) => {
+            let despesa: Despesa = new Despesa();
+            despesa = childSnapshot.val();
+            despesa.key = childSnapshot.key;
+            despesas.push(despesa);
+          })
+          //console.log(categorias);
+          resolve(despesas);
+        })
+    })
+  }
+
+  pushDespesa(despesa: Despesa): Promise<any> {
+    return new Promise((resolve, reject) => {
+      delete despesa.key;
+      firebase.database().ref(`${btoa(localStorage.getItem('email'))}/despesas`)
+        .push(despesa)
+        .then((resp: any) => {
+          this.messageService.sucesso('Despesa inserida com sucesso!');
+          resolve(true);
+        })
+    })
+  }
+
+  delDespesa(despesa: Despesa): Promise<any> {
+    return new Promise((resolve, reject) => {
+      firebase.database().ref(`${btoa(localStorage.getItem('email'))}/despesas/${despesa.key}`)
+        .remove()
+        .then((resp: any) => {
+          Swal(
+            'Deletada!',
+            'Despesa deletada com sucesso!',
+            'success'
+          )
+        })
+    })
+  }
+
+  updateDespesa(despesa: Despesa): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let key = despesa.key;
+      delete despesa.key;
+      firebase.database().ref(`${btoa(localStorage.getItem('email'))}/despesas/${key}`)
+        .update(despesa)
+        .then((resp: any) => {
+          Swal(
+            'Editada!',
+            'Despesa editada com sucesso!',
             'success'
           )
         })

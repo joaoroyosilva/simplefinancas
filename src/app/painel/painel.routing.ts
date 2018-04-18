@@ -14,6 +14,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { UpgradeComponent } from './upgrade/upgrade.component';
 import { PainelComponent } from './painel.component';
 import { AuthGuard } from 'app/auth-guard';
+import { DespesaComponent } from './despesa/despesa.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,7 @@ import { AuthGuard } from 'app/auth-guard';
           { path: 'dashboard', component: DashboardComponent },
           { path: 'user-profile', component: UserProfileComponent },
           { path: 'receitas', component: ReceitaComponent },
-          { path: 'typography', component: TypographyComponent },
+          { path: 'despesas', component: DespesaComponent },
           { path: 'categoria-lancamento', component: CategoriaLancamentoComponent },
           { path: 'maps', component: MapsComponent },
           { path: 'notifications', component: NotificationsComponent },

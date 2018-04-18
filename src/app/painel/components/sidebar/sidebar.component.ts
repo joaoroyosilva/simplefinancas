@@ -13,7 +13,8 @@ export const ROUTES: RouteInfo[] = [
     { path: 'user-profile', title: 'Perfil', icon: 'person', class: '' },
     { path: 'categoria-lancamento', title: 'Categorias', icon: 'description', class: '' },
     { path: 'receitas', title: 'Receitas', icon: 'trending_up', class: '' },
-    { path: 'typography', title: 'Despesas', icon: 'trending_down', class: '' },
+    { path: 'despesas', title: 'Despesas', icon: 'trending_down', class: '' },
+    { path: 'typography', title: 'Relatórios', icon: 'insert_chart', class: '' },
 ];
 
 @Component({

@@ -1,8 +1,8 @@
-<h2 mat-dialog-title *ngIf="!data.receita.key; else editar">
-  Novo Lançamento de Receita
+<h2 mat-dialog-title *ngIf="!data.despesa.key; else editar">
+  Novo Lançamento de Despesa
 </h2>
 <ng-template #editar>
-  <h2 mat-dialog-title>Editar Lançamento de Receita</h2>
+  <h2 mat-dialog-title>Editar Lançamento de Despesa</h2>
 </ng-template>
 <mat-dialog-content>
   <form novalidate [formGroup]="form">
@@ -58,18 +58,18 @@
         <mat-datepicker #quitacao></mat-datepicker>
         <mat-error *ngIf="!form.get('quitacao').valid">Campo obrigatório</mat-error>
       </mat-form-field>
-      <mat-form-field *ngIf="form.get('quitada').value!='true' && !data.receita.key">
+      <mat-form-field *ngIf="form.get('quitada').value!='true' && !data.despesa.key">
         <input matInput placeholder="Realizar quantos lançamentos?" formControlName="qtd_lancamento" />
       </mat-form-field>
     </div>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-raised-button color="primary" (click)="inserirReceita()">
-    <mat-icon aria-label="Adicionar Receita">save</mat-icon>
+  <button mat-raised-button color="primary" (click)="inserirDespesa()">
+    <mat-icon aria-label="Adicionar Despesa">save</mat-icon>
     Salvar
   </button>
   <button mat-raised-button [mat-dialog-close]="true">
-    <mat-icon aria-label="Deletar Receita">clear</mat-icon> Cancelar
+    <mat-icon aria-label="Deletar Despesa">clear</mat-icon> Cancelar
   </button>
 </mat-dialog-actions>
