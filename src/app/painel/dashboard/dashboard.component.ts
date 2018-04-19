@@ -96,13 +96,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     )
 
 
-
-    /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
-
     var dataEmailsSubscriptionChart = {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      labels: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
       series: [
-        [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
+        [542, -400, 320, 780, 553, 453, 326]
 
       ]
     };
@@ -110,9 +107,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       axisX: {
         showGrid: false
       },
-      low: 0,
+      low: -1000,
       high: 1000,
-      chartPadding: { top: 0, right: 5, bottom: 0, left: 0 }
+      chartPadding: { top: 0, right: 10, bottom: 0, left: 10 }
     };
     var responsiveOptions: any[] = [
       ['screen and (max-width: 640px)', {
@@ -126,7 +123,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ];
     var emailsSubscriptionChart = new Chartist.Bar('#emailsSubscriptionChart', dataEmailsSubscriptionChart, optionsEmailsSubscriptionChart, responsiveOptions);
 
-    //start animation for the Emails Subscription Chart
     this.startAnimationForBarChart(emailsSubscriptionChart);
   }
 
