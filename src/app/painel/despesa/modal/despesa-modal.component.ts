@@ -116,6 +116,7 @@ export class DespesaModalComponent implements OnInit {
     if (this.form.get('quitada').value == 'true') {
       this.form.get('quitacao').setValidators([Validators.required]);
       this.form.get('valorquitado').setValidators([Validators.required, Validators.min(0)]);
+      this.form.controls['valorquitado'].setValue(+this.form.controls['valor'].value);
     } else {
       this.form.get('quitacao').clearValidators();
       this.form.get('quitacao').updateValueAndValidity();

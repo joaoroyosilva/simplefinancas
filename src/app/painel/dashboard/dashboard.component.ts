@@ -17,6 +17,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   hora_receitas: any;
   atualiza_receitas: Subscription;
 
+  hora_despesas: any;
+  atualiza_despesas: Subscription;
 
   constructor(private graficosService: GraficosService) { }
   startAnimationForLineChart(chart) {
@@ -85,29 +87,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     )
 
-
-    /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
-
-    const dataCompletedTasksChart: any = {
-      labels: ['12am', '3pm', '6pm', '9pm', '12pm', '3am', '6am', '9am'],
-      series: [
-        [230, 750, 450, 300, 280, 240, 200, 190]
-      ]
-    };
-
-    const optionsCompletedTasksChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
-    }
-
-    var completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
-
-    // start animation for the Completed Tasks Chart - Line Chart
-    this.startAnimationForLineChart(completedTasksChart);
+    this.atualizaDespesas();
+    let observable_despesas: Observable<any> = Observable.interval(600000);
+    this.atualiza_despesas = observable_despesas.subscribe(
+      (interval) => {
+        this.atualizaDespesas();
+      }
+    )
 
 
 
@@ -146,23 +132,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.atualiza_receitas.unsubscribe();
+    this.atualiza_despesas.unsubscribe();
   }
 
   atualizaReceitas(): void {
     this.graficosService.getReceitas().then(
       (receitas: any) => {
         //console.log('atualizou', this.receitas)
-        /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
-
         this.hora_receitas = new Date();
-        const dataDailySalesChart: any = {
+        const dataReceitasSemana: any = {
           labels: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
           series: [
             receitas
           ]
         };
 
-        const optionsDailySalesChart: any = {
+        const optionsReceitasSemana: any = {
           lineSmooth: Chartist.Interpolation.cardinal({
             tension: 0
           }),
@@ -171,9 +156,38 @@ export class DashboardComponent implements OnInit, OnDestroy {
           chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
         }
 
-        var receitasSemana = new Chartist.Line('#receitasSemana', dataDailySalesChart, optionsDailySalesChart);
+        var receitasSemana = new Chartist.Line('#receitasSemana', dataReceitasSemana, optionsReceitasSemana);
 
         this.startAnimationForLineChart(receitasSemana);
+      }
+    )
+  }
+
+  atualizaDespesas(): void {
+
+    this.graficosService.getDespesas().then(
+      (despesas: any) => {
+        //console.log('atualizou', this.despesas)
+        this.hora_despesas = new Date();
+        const dataDespesasSemana: any = {
+          labels: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+          series: [
+            despesas
+          ]
+        };
+
+        const optionsDespesasSemana: any = {
+          lineSmooth: Chartist.Interpolation.cardinal({
+            tension: 0
+          }),
+          low: 0,
+          high: Math.max.apply(null, despesas) * 1.101, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+          chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
+        }
+
+        var despesasSemana = new Chartist.Line('#despesasSemana', dataDespesasSemana, optionsDespesasSemana);
+
+        this.startAnimationForLineChart(despesasSemana);
       }
     )
   }

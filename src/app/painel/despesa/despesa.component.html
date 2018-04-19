@@ -29,49 +29,50 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <b>Documento</b>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.vencimento)?'red':''"> {{row.documento}} </mat-cell>
+                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.vencimento)?'red':data.isSame(row.vencimento)?'olive':''"> {{row.documento}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="historico">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <b>Histórico</b>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.vencimento)?'red':''"> {{row.historico}} </mat-cell>
+                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.vencimento)?'red':data.isSame(row.vencimento)?'olive':''"> {{row.historico}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="categoria">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <b>Categoria</b>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.vencimento)?'red':''"> {{row.categoria}} </mat-cell>
+                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.vencimento)?'red':data.isSame(row.vencimento)?'olive':''"> {{row.categoria}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="emissao">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <b>Emissão</b>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.vencimento)?'red':''"> {{row.emissao | date:'dd/MM/yyyy'}} </mat-cell>
+                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.vencimento)?'red':data.isSame(row.vencimento)?'olive':''"> {{row.emissao | date:'dd/MM/yyyy'}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="vencimento">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <b>Vencimento</b>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.vencimento)?'red':''"> {{row.vencimento | date:'dd/MM/yyyy'}} </mat-cell>
+                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.vencimento)?'red':data.isSame(row.vencimento)?'olive':''"> {{row.vencimento | date:'dd/MM/yyyy'}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="valor">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <b>Valor</b>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.vencimento)?'red':''"> {{row.valor | currency:'BRL'}} </mat-cell>
+                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.vencimento)?'red':data.isSame(row.vencimento)?'olive':''"> {{row.valor | currency:'BRL'}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="situacao">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <b>Situação</b>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.vencimento)?'red':''"> {{(row.quitada=='true')?'Quitada':data.isAfter(row.vencimento)?'Atrasada':'Aberta'}} </mat-cell>
+                <mat-cell *matCellDef="let row" [style.color]="row.quitada=='true'?'blue':data.isAfter(row.vencimento)?'red':data.isSame(row.vencimento)?'olive':''">
+                {{(row.quitada=='true')?'Quitada':data.isAfter(row.vencimento)?'Atrasada':'Aberta'}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="opcoes">

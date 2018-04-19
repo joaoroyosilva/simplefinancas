@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { Receita } from '../models/receita.model';
 import { FirebaseService } from './firebase.service';
+import { Despesa } from '../models/despesa.model';
 
 @Injectable()
 export class GraficosService implements OnInit {
@@ -44,6 +45,34 @@ export class GraficosService implements OnInit {
           })
           //console.log(categorias);
           resolve(receitas);
+        })
+    })
+  }
+
+  getDespesas(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let despesas: number[] = [0, 0, 0, 0, 0, 0, 0];
+      firebase.database().ref(`${btoa(localStorage.getItem('email'))}/despesas`)
+        .orderByKey()
+        .once('value')
+        .then((snapshot: any) => {
+          snapshot.forEach((childSnapshot: any) => {
+            let despesa: Despesa = new Despesa();
+            //console.log('snap', childSnapshot.val());
+            despesa = childSnapshot.val();
+            let data = moment(new Date());
+            let data_receita = moment(despesa.vencimento);
+            if ((data.week() == data_receita.week()) && (data.year() == data_receita.year())) {
+              //console.log('dia', data_receita.weekday());
+              //console.log('valor atual', receitas[data_receita.weekday()]);
+              //console.log('receita', receita.documento + ' - ' + receita.valor);
+              //console.log(receita.valor+receita.valor)
+              despesas[data_receita.weekday()] += despesa.valor
+              //console.log('nova receita', receitas[data_receita.weekday()])
+            }
+          })
+          //console.log(categorias);
+          resolve(despesas);
         })
     })
   }
