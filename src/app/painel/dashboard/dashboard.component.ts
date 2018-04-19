@@ -1,12 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as Chartist from 'chartist';
 import * as moment from 'moment';
+import Swal from 'sweetalert2';
 
 import { GraficosService } from '../../shared/services/graficos.service';
 import { Receita } from '../../shared/models/receita.model';
 import { Subscription, Observable } from 'rxjs';
 import { Despesa } from '../../shared/models/despesa.model';
 import { FirebaseService } from '../../shared/services/firebase.service';
+import { ReceitaModalComponent } from '../receita/modal/receita-modal.component';
+import { MatDialog } from '@angular/material';
+import { DespesaModalComponent } from '../despesa/modal/despesa-modal.component';
+import { Utils } from '../../shared/utils/utils';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,24 +21,21 @@ import { FirebaseService } from '../../shared/services/firebase.service';
 export class DashboardComponent implements OnInit, OnDestroy {
 
 
-  hora_receitas: any;
+  hora: any;
   atualiza_receitas: Subscription;
-
-  hora_despesas: any;
   atualiza_despesas: Subscription;
-
-  hora_saldo: any;
   atualiza_saldo: Subscription;
 
   rec_abertas: Receita[] = [];
   rec_atrasadas: Receita[] = [];
-  rec_quitadas: Receita[] = [];
 
   des_abertas: Despesa[] = [];
   des_atrasadas: Despesa[] = [];
-  des_quitadas: Despesa[] = [];
 
-  constructor(private graficosService: GraficosService, private firebaseService: FirebaseService) { }
+  constructor(
+    private graficosService: GraficosService,
+    private firebaseService: FirebaseService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.atualizaReceitas();
@@ -124,12 +126,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .then((receitas: Receita[]) => this.rec_abertas = receitas)
     this.firebaseService.getReceitas('atrasadas')
       .then((receitas: Receita[]) => this.rec_atrasadas = receitas)
-    this.firebaseService.getReceitas('quitadas')
-      .then((receitas: Receita[]) => this.rec_quitadas = receitas)
     this.graficosService.getReceitasSemana().then(
       (receitas: any) => {
         //console.log('atualizou', this.receitas)
-        this.hora_receitas = new Date();
+        this.hora = moment(new Utils().getDataAtual());
         const dataReceitasSemana: any = {
           labels: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
           series: [
@@ -138,9 +138,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         };
 
         const optionsReceitasSemana: any = {
-          lineSmooth: Chartist.Interpolation.cardinal({
-            tension: 0
-          }),
           low: 0,
           high: Math.max.apply(null, receitas) * 1.101, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
           chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
@@ -158,13 +155,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .then((despesas: Receita[]) => this.des_abertas = despesas)
     this.firebaseService.getDespesas('atrasadas')
       .then((despesas: Receita[]) => this.des_atrasadas = despesas)
-    this.firebaseService.getDespesas('quitadas')
-      .then((despesas: Receita[]) => this.des_quitadas = despesas)
 
     this.graficosService.getDespesasSemana().then(
       (despesas: any) => {
         //console.log('atualizou', this.despesas)
-        this.hora_despesas = new Date();
+        this.hora = moment(new Utils().getDataAtual());
         const dataDespesasSemana: any = {
           labels: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
           series: [
@@ -173,9 +168,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         };
 
         const optionsDespesasSemana: any = {
-          lineSmooth: Chartist.Interpolation.cardinal({
-            tension: 0
-          }),
           low: 0,
           high: Math.max.apply(null, despesas) * 1.101, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
           chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
@@ -200,7 +192,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             for (let i = 0; i < 7; i++) {
               saldo[i] -= despesas[i];
             }
-            this.hora_saldo = new Date();
+            this.hora = moment(new Utils().getDataAtual());
             var dataSaldoSemana = {
               labels: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
               series: [
@@ -208,9 +200,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
               ]
             };
             var optionsSaldoSemana = {
-              axisX: {
-                showGrid: false
-              },
               low: Math.min.apply(null, saldo) * 1.101,
               high: Math.max.apply(null, saldo) * 1.101,
               chartPadding: { top: 0, right: 10, bottom: 0, left: 10 }
@@ -225,12 +214,72 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 }
               }]
             ];
-            var saldoSemana = new Chartist.Bar('#saldoSemana', dataSaldoSemana, optionsSaldoSemana, responsiveOptions);
+            var saldoSemana = new Chartist.Line('#saldoSemana', dataSaldoSemana, optionsSaldoSemana, responsiveOptions);
 
-            this.startAnimationForBarChart(saldoSemana);
+            this.startAnimationForLineChart(saldoSemana);
           })
       })
+  }
 
+
+  catRecDialog(receita: Receita = new Receita()): void {
+    let dialogRef = this.dialog.open(ReceitaModalComponent, {
+      width: '400px',
+      height: '600px',
+      data: { receita: receita }
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.atualizaReceitas()
+    });
+  }
+
+  delRecDialog(receita: Receita): void {
+    Swal({
+      title: 'Deseja excluir receita?',
+      text: `Número do documento: ${receita.documento}`,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Não, cancelar!',
+      confirmButtonText: 'Sim, excluir!'
+    }).then((result) => {
+      if (result.value) {
+        this.firebaseService.delReceita(receita).then(
+          (resp) => this.atualizaReceitas()
+        )
+      }
+    })
+  }
+
+  catDesDialog(despesa: Despesa = new Despesa()): void {
+    let dialogRef = this.dialog.open(DespesaModalComponent, {
+      width: '400px',
+      height: '600px',
+      data: { despesa: despesa }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.atualizaDespesas()
+    });
+  }
+
+  delDesDialog(despesa: Despesa): void {
+    Swal({
+      title: 'Deseja excluir despesa?',
+      text: `Número do documento: ${despesa.documento}`,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Não, cancelar!',
+      confirmButtonText: 'Sim, excluir!'
+    }).then((result) => {
+      if (result.value) {
+        this.firebaseService.delDespesa(despesa)
+        .then(resp=> this.atualizaDespesas())
+      }
+    })
   }
 }
 

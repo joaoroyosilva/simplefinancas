@@ -14,7 +14,6 @@ export const ROUTES: RouteInfo[] = [
     { path: 'categoria-lancamento', title: 'Categorias', icon: 'description', class: '' },
     { path: 'receitas', title: 'Receitas', icon: 'trending_up', class: '' },
     { path: 'despesas', title: 'Despesas', icon: 'trending_down', class: '' },
-    { path: 'typography', title: 'Relatórios', icon: 'insert_chart', class: '' },
 ];
 
 @Component({

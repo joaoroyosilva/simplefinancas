@@ -12,7 +12,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado em: {{ hora_receitas | date:'dd/MM/yyyy HH:mm:ss' }}
+                            <i class="material-icons">access_time</i> atualizado em: {{ hora | date:'dd/MM/yyyy HH:mm:ss' }}
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado em: {{ hora_despesas | date:'dd/MM/yyyy HH:mm:ss' }}
+                            <i class="material-icons">access_time</i> atualizado em: {{ hora | date:'dd/MM/yyyy HH:mm:ss' }}
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> atualizado em: {{ hora_saldo | date:'dd/MM/yyyy HH:mm:ss' }}
+                            <i class="material-icons">access_time</i> atualizado em: {{ hora | date:'dd/MM/yyyy HH:mm:ss' }}
                         </div>
                     </div>
 
@@ -53,32 +53,25 @@
 
         </div>
 
-        <!--
         <div class="row">
             <div class="col-lg-6 col-md-12">
                 <div class="card card-nav-tabs">
                     <div class="card-header" data-background-color="green">
                         <div class="nav-tabs-navigation">
                             <div class="nav-tabs-wrapper">
+                                <span class="nav-tabs-title">Receitas:</span>
                                 <ul class="nav nav-tabs" data-tabs="tabs">
                                     <li class="active">
-                                        <a href="#recAberto" data-toggle="tab">
+                                        <a href="#recAbertas" data-toggle="tab">
                                             <i class="material-icons">schedule</i>
-                                            Abertos
+                                            Abertas
                                             <div class="ripple-container"></div>
                                         </a>
                                     </li>
                                     <li class="">
-                                        <a href="#recAtrasado" data-toggle="tab">
+                                        <a href="#recAtrasada" data-toggle="tab">
                                             <i class="material-icons">info</i>
-                                            Atrasados
-                                            <div class="ripple-container"></div>
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="#recQuitada" data-toggle="tab">
-                                            <i class="material-icons">check_circle</i>
-                                            Quitados
+                                            Atrasadas
                                             <div class="ripple-container"></div>
                                         </a>
                                     </li>
@@ -89,29 +82,38 @@
 
                     <div class="card-content">
                         <div class="tab-content">
-                            <div class="tab-pane active" id="recAberto">
+                            <div class="tab-pane active" id="recAbertas">
                                 <table class="table">
                                     <tbody>
-                                        <tr *ngFor='let receita of rec_abertas'>
+                                        <tr *ngFor='let receita of rec_abertas' [style.color]="hora.isAfter(receita.vencimento)?'red':''">
                                             <td>{{ receita.documento }} - {{ receita.historico }}</td>
+                                            <td>{{ receita.vencimento | date:'dd/MM/yyyy' }}</td>
+                                            <td class="td-actions text-right">
+                                                <button (click)="catRecDialog(receita)" rel="tooltip" title="Editar Receber" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                                <button (click)="delRecDialog(receita)" rel="tooltip" title="Remover" class="btn btn-danger btn-simple btn-xs">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="tab-pane" id="recAtrasado">
+                            <div class="tab-pane" id="recAtrasada">
                                 <table class="table">
                                     <tbody>
                                         <tr *ngFor='let receita of rec_atrasadas'>
                                             <td>{{ receita.documento }} - {{ receita.historico }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="tab-pane" id="recQuitada">
-                                <table class="table">
-                                    <tbody>
-                                        <tr *ngFor='let receita of rec_quitadas'>
-                                            <td>{{ receita.documento }} - {{ receita.historico }}</td>
+                                            <td>{{ receita.vencimento | date:'dd/MM/yyyy' }}</td>
+                                            <td class="td-actions text-right">
+                                                <button (click)="catRecDialog(receita)" rel="tooltip" title="Editar Receber" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                                <button (click)="delRecDialog(receita)" rel="tooltip" title="Remover" class="btn btn-danger btn-simple btn-xs">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -126,25 +128,19 @@
                     <div class="card-header" data-background-color="red">
                         <div class="nav-tabs-navigation">
                             <div class="nav-tabs-wrapper">
+                                <span class="nav-tabs-title">Despesas:</span>
                                 <ul class="nav nav-tabs" data-tabs="tabs">
                                     <li class="active">
-                                        <a href="#desAberto" data-toggle="tab">
+                                        <a href="#desAbertas" data-toggle="tab">
                                             <i class="material-icons">schedule</i>
-                                            Abertos
+                                            Abertas
                                             <div class="ripple-container"></div>
                                         </a>
                                     </li>
                                     <li class="">
-                                        <a href="#desAtrasado" data-toggle="tab">
+                                        <a href="#desAtrasada" data-toggle="tab">
                                             <i class="material-icons">info</i>
-                                            Atrasados
-                                            <div class="ripple-container"></div>
-                                        </a>
-                                    </li>
-                                    <li class="">
-                                        <a href="#desQuitada" data-toggle="tab">
-                                            <i class="material-icons">check_circle</i>
-                                            Quitados
+                                            Atrasadas
                                             <div class="ripple-container"></div>
                                         </a>
                                     </li>
@@ -155,29 +151,38 @@
 
                     <div class="card-content">
                         <div class="tab-content">
-                            <div class="tab-pane active" id="desAberto">
+                            <div class="tab-pane active" id="desAbertas">
                                 <table class="table">
                                     <tbody>
-                                        <tr *ngFor='let despesa of des_abertas'>
+                                        <tr *ngFor='let despesa of des_abertas' [style.color]="hora.isAfter(despesa.vencimento)?'red':''">
                                             <td>{{ despesa.documento }} - {{ despesa.historico }}</td>
+                                            <td>{{ despesa.vencimento | date:'dd/MM/yyyy' }}</td>
+                                            <td class="td-actions text-right">
+                                                <button (click)="catDesDialog(despesa)" rel="tooltip" title="Editar Receber" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                                <button (click)="delDesDialog(despesa)" rel="tooltip" title="Remover" class="btn btn-danger btn-simple btn-xs">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="tab-pane" id="desAtrasado">
+                            <div class="tab-pane" id="desAtrasada">
                                 <table class="table">
                                     <tbody>
                                         <tr *ngFor='let despesa of rec_atrasadas'>
                                             <td>{{ despesa.documento }} - {{ despesa.historico }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="tab-pane" id="desQuitada">
-                                <table class="table">
-                                    <tbody>
-                                        <tr *ngFor='let despesa of rec_quitadas'>
-                                            <td>{{ despesa.documento }} - {{ despesa.historico }}</td>
+                                            <td>{{ despesa.vencimento | date:'dd/MM/yyyy' }}</td>
+                                            <td class="td-actions text-right">
+                                                <button (click)="catDesDialog(despesa)" rel="tooltip" title="Editar Receber" class="btn btn-primary btn-simple btn-xs">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                                <button (click)="delDesDialog(despesa)" rel="tooltip" title="Remover" class="btn btn-danger btn-simple btn-xs">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -187,6 +192,6 @@
                 </div>
             </div>
         </div>
-    -->
+
     </div>
 </div>

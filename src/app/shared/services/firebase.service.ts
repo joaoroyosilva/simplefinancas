@@ -175,6 +175,7 @@ export class FirebaseService implements OnInit {
             'Receita deletada com sucesso!',
             'success'
           )
+          resolve();
         })
     })
   }
@@ -259,6 +260,7 @@ export class FirebaseService implements OnInit {
             'Despesa deletada com sucesso!',
             'success'
           )
+          resolve(true)
         })
     })
   }
