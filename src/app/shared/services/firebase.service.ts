@@ -1,12 +1,16 @@
 import { Injectable, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
+
+
 import { Usuario } from '../models/usuario.model';
 import { MessageService } from './message.service';
 import { AuthService } from './auth.service';
 import { CategoriaLancamento } from '../models/categoria-lancamento.model';
 import { Receita } from 'app/shared/models/receita.model';
 import { Despesa } from '../models/despesa.model';
+import { Utils } from '../utils/utils';
 
 @Injectable()
 export class FirebaseService implements OnInit {
@@ -107,7 +111,7 @@ export class FirebaseService implements OnInit {
     })
   }
 
-  getReceitas(): Promise<any> {
+  getReceitas(status: string = ''): Promise<any> {
     return new Promise((resolve, reject) => {
       let receitas: Receita[] = [];
       firebase.database().ref(`${btoa(localStorage.getItem('email'))}/receitas`)
@@ -118,7 +122,30 @@ export class FirebaseService implements OnInit {
             let receita: Receita = new Receita();
             receita = childSnapshot.val();
             receita.key = childSnapshot.key;
-            receitas.push(receita);
+            switch (status) {
+              case 'abertas':
+                if (receita.quitada == 'false') {
+                  receitas.push(receita);
+                }
+                break;
+
+              case 'atrasadas':
+                let data = moment(new Utils().getDataAtual());
+                if (data.isAfter(receita.vencimento) && receita.quitada == 'false') {
+                  receitas.push(receita);
+                }
+                break;
+
+              case 'quitadas':
+                if (receita.quitada == 'true') {
+                  receitas.push(receita);
+                }
+                break;
+
+              default:
+                receitas.push(receita);
+                break;
+            }
           })
           //console.log(categorias);
           resolve(receitas);
@@ -168,7 +195,7 @@ export class FirebaseService implements OnInit {
     })
   }
 
-  getDespesas(): Promise<any> {
+  getDespesas(status: string = ''): Promise<any> {
     return new Promise((resolve, reject) => {
       let despesas: Despesa[] = [];
       firebase.database().ref(`${btoa(localStorage.getItem('email'))}/despesas`)
@@ -179,7 +206,30 @@ export class FirebaseService implements OnInit {
             let despesa: Despesa = new Despesa();
             despesa = childSnapshot.val();
             despesa.key = childSnapshot.key;
-            despesas.push(despesa);
+            switch (status) {
+              case 'abertas':
+                if (despesa.quitada == 'false') {
+                  despesas.push(despesa);
+                }
+                break;
+
+              case 'atrasadas':
+                let data = moment(new Utils().getDataAtual());
+                if (data.isAfter(despesa.vencimento) && despesa.quitada == 'false') {
+                  despesas.push(despesa);
+                }
+                break;
+
+              case 'quitadas':
+                if (despesa.quitada == 'true') {
+                  despesas.push(despesa);
+                }
+                break;
+
+              default:
+                despesas.push(despesa);
+                break;
+            }
           })
           //console.log(categorias);
           resolve(despesas);

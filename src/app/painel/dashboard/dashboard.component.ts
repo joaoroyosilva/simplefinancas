@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import { GraficosService } from '../../shared/services/graficos.service';
 import { Receita } from '../../shared/models/receita.model';
 import { Subscription, Observable } from 'rxjs';
+import { Despesa } from '../../shared/models/despesa.model';
+import { FirebaseService } from '../../shared/services/firebase.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,8 +25,37 @@ export class DashboardComponent implements OnInit, OnDestroy {
   hora_saldo: any;
   atualiza_saldo: Subscription;
 
+  rec_abertas: Receita[] = [];
+  rec_atrasadas: Receita[] = [];
+  rec_quitadas: Receita[] = [];
 
-  constructor(private graficosService: GraficosService) { }
+  des_abertas: Despesa[] = [];
+  des_atrasadas: Despesa[] = [];
+  des_quitadas: Despesa[] = [];
+
+  constructor(private graficosService: GraficosService, private firebaseService: FirebaseService) { }
+
+  ngOnInit() {
+    this.atualizaReceitas();
+    let observable_receitas: Observable<any> = Observable.interval(600000);
+    this.atualiza_receitas = observable_receitas.subscribe(
+      (interval) => this.atualizaReceitas()
+    )
+
+    this.atualizaDespesas();
+    let observable_despesas: Observable<any> = Observable.interval(600000);
+    this.atualiza_despesas = observable_despesas.subscribe(
+      (interval) => this.atualizaDespesas()
+    )
+
+    this.atualizaSaldo();
+    let observable_saldo: Observable<any> = Observable.interval(600000);
+    this.atualiza_saldo = observable_saldo.subscribe(
+      (interval) => this.atualizaSaldo()
+    )
+  }
+
+
   startAnimationForLineChart(chart) {
     let seq: any, delays: any, durations: any;
     seq = 0;
@@ -82,32 +113,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     seq2 = 0;
   };
 
-  ngOnInit() {
-    this.atualizaReceitas();
-    let observable_receitas: Observable<any> = Observable.interval(600000);
-    this.atualiza_receitas = observable_receitas.subscribe(
-      (interval) => {
-        this.atualizaReceitas();
-      }
-    )
-
-    this.atualizaDespesas();
-    let observable_despesas: Observable<any> = Observable.interval(600000);
-    this.atualiza_despesas = observable_despesas.subscribe(
-      (interval) => {
-        this.atualizaDespesas();
-      }
-    )
-
-    this.atualizaSaldo();
-    let observable_saldo: Observable<any> = Observable.interval(600000);
-    this.atualiza_saldo = observable_saldo.subscribe(
-      (interval) => {
-        this.atualizaSaldo();
-      }
-    )
-  }
-
   ngOnDestroy() {
     this.atualiza_receitas.unsubscribe();
     this.atualiza_despesas.unsubscribe();
@@ -115,6 +120,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   atualizaReceitas(): void {
+    this.firebaseService.getReceitas('abertas')
+      .then((receitas: Receita[]) => this.rec_abertas = receitas)
+    this.firebaseService.getReceitas('atrasadas')
+      .then((receitas: Receita[]) => this.rec_atrasadas = receitas)
+    this.firebaseService.getReceitas('quitadas')
+      .then((receitas: Receita[]) => this.rec_quitadas = receitas)
     this.graficosService.getReceitasSemana().then(
       (receitas: any) => {
         //console.log('atualizou', this.receitas)
@@ -143,6 +154,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   atualizaDespesas(): void {
+    this.firebaseService.getDespesas('abertas')
+      .then((despesas: Receita[]) => this.des_abertas = despesas)
+    this.firebaseService.getDespesas('atrasadas')
+      .then((despesas: Receita[]) => this.des_atrasadas = despesas)
+    this.firebaseService.getDespesas('quitadas')
+      .then((despesas: Receita[]) => this.des_quitadas = despesas)
 
     this.graficosService.getDespesasSemana().then(
       (despesas: any) => {
