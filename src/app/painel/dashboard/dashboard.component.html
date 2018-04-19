@@ -108,15 +108,14 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header card-chart" data-background-color="orange">
-                        <div class="ct-chart" id="emailsSubscriptionChart"></div>
+                        <div class="ct-chart" id="saldoSemana"></div>
                     </div>
                     <div class="card-content">
-                        <h4 class="title">Email Subscriptions</h4>
-                        <p class="category">Last Campaign Performance</p>
+                        <h4 class="title">Saldo Semana</h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> campaign sent 2 days ago
+                            <i class="material-icons">access_time</i> atualizado em: {{ hora_saldo | date:'dd/MM/yyyy HH:mm:ss' }}
                         </div>
                     </div>
 

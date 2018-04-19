@@ -21,7 +21,7 @@ export class GraficosService implements OnInit {
   }
 
 
-  getReceitas(): Promise<any> {
+  getReceitasSemana(): Promise<any> {
     return new Promise((resolve, reject) => {
       let receitas: number[] = [0, 0, 0, 0, 0, 0, 0];
       firebase.database().ref(`${btoa(localStorage.getItem('email'))}/receitas`)
@@ -43,13 +43,13 @@ export class GraficosService implements OnInit {
               //console.log('nova receita', receitas[data_receita.weekday()])
             }
           })
-          //console.log(categorias);
+          //console.log('receitas', receitas);
           resolve(receitas);
         })
     })
   }
 
-  getDespesas(): Promise<any> {
+  getDespesasSemana(): Promise<any> {
     return new Promise((resolve, reject) => {
       let despesas: number[] = [0, 0, 0, 0, 0, 0, 0];
       firebase.database().ref(`${btoa(localStorage.getItem('email'))}/despesas`)
@@ -71,9 +71,10 @@ export class GraficosService implements OnInit {
               //console.log('nova receita', receitas[data_receita.weekday()])
             }
           })
-          //console.log(categorias);
+          //console.log('despesas', despesas);
           resolve(despesas);
         })
     })
   }
+
 }

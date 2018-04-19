@@ -20,6 +20,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   hora_despesas: any;
   atualiza_despesas: Subscription;
 
+  hora_saldo: any;
+  atualiza_saldo: Subscription;
+
+
   constructor(private graficosService: GraficosService) { }
   startAnimationForLineChart(chart) {
     let seq: any, delays: any, durations: any;
@@ -95,44 +99,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     )
 
-
-    var dataEmailsSubscriptionChart = {
-      labels: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-      series: [
-        [542, -400, 320, 780, 553, 453, 326]
-
-      ]
-    };
-    var optionsEmailsSubscriptionChart = {
-      axisX: {
-        showGrid: false
-      },
-      low: -1000,
-      high: 1000,
-      chartPadding: { top: 0, right: 10, bottom: 0, left: 10 }
-    };
-    var responsiveOptions: any[] = [
-      ['screen and (max-width: 640px)', {
-        seriesBarDistance: 5,
-        axisX: {
-          labelInterpolationFnc: function (value) {
-            return value[0];
-          }
-        }
-      }]
-    ];
-    var emailsSubscriptionChart = new Chartist.Bar('#emailsSubscriptionChart', dataEmailsSubscriptionChart, optionsEmailsSubscriptionChart, responsiveOptions);
-
-    this.startAnimationForBarChart(emailsSubscriptionChart);
+    this.atualizaSaldo();
+    let observable_saldo: Observable<any> = Observable.interval(600000);
+    this.atualiza_saldo = observable_saldo.subscribe(
+      (interval) => {
+        this.atualizaSaldo();
+      }
+    )
   }
 
   ngOnDestroy() {
     this.atualiza_receitas.unsubscribe();
     this.atualiza_despesas.unsubscribe();
+    this.atualiza_saldo.unsubscribe();
   }
 
   atualizaReceitas(): void {
-    this.graficosService.getReceitas().then(
+    this.graficosService.getReceitasSemana().then(
       (receitas: any) => {
         //console.log('atualizou', this.receitas)
         this.hora_receitas = new Date();
@@ -161,7 +144,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   atualizaDespesas(): void {
 
-    this.graficosService.getDespesas().then(
+    this.graficosService.getDespesasSemana().then(
       (despesas: any) => {
         //console.log('atualizou', this.despesas)
         this.hora_despesas = new Date();
@@ -187,4 +170,50 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     )
   }
+
+  atualizaSaldo(): void {
+    let saldo = [0, 0, 0, 0, 0, 0, 0];
+    this.graficosService.getReceitasSemana().then(
+      (receitas: any) => {
+        for (let i = 0; i < 7; i++) {
+          saldo[i] += receitas[i];
+        }
+        this.graficosService.getDespesasSemana().then(
+          (despesas: any) => {
+            for (let i = 0; i < 7; i++) {
+              saldo[i] -= despesas[i];
+            }
+            this.hora_saldo = new Date();
+            var dataSaldoSemana = {
+              labels: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+              series: [
+                saldo
+              ]
+            };
+            var optionsSaldoSemana = {
+              axisX: {
+                showGrid: false
+              },
+              low: Math.min.apply(null, saldo) * 1.101,
+              high: Math.max.apply(null, saldo) * 1.101,
+              chartPadding: { top: 0, right: 10, bottom: 0, left: 10 }
+            };
+            var responsiveOptions: any[] = [
+              ['screen and (max-width: 640px)', {
+                seriesBarDistance: 5,
+                axisX: {
+                  labelInterpolationFnc: function (value) {
+                    return value[0];
+                  }
+                }
+              }]
+            ];
+            var saldoSemana = new Chartist.Bar('#saldoSemana', dataSaldoSemana, optionsSaldoSemana, responsiveOptions);
+
+            this.startAnimationForBarChart(saldoSemana);
+          })
+      })
+
+  }
 }
+
