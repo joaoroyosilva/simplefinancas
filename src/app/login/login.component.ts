@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
           }
         )
     } else {
-      this.estadoLogin = 'recusado';
+     // this.estadoLogin = 'recusado';
       this.messageService.erro('Confira todos os campos!');
     }
   }

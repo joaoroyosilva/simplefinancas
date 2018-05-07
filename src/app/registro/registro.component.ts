@@ -73,7 +73,7 @@ export class RegistroComponent implements OnInit {
         () => this.router.navigate(['/auth/login'])
       );
     } else {
-      this.estadoForm = 'recusado';
+      //this.estadoForm = 'recusado';
       this.messageService.erro('Confira todos os campos!');
     }
   }
