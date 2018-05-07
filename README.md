@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # [Material Dashboard Angular - Free Bootstrap Material Design Admin](https://www.creative-tim.com/product/material-dashboard-angular2)[![version][version-badge]][CHANGELOG]
 
 ![alt text](http://s3.amazonaws.com/creativetim_bucket/products/53/original/opt_md_angular_thumbnail.jpg "Material Dashboard Angular Free")
@@ -172,3 +173,7 @@ Instagram: <https://instagram.com/creativetimofficial>
 [CHANGELOG]: ./CHANGELOG.md
 
 [version-badge]: https://img.shields.io/badge/version-1.4.2-blue.svg
+=======
+# simplefinancas
+Aplicativos simples de finanças em angular2+ e firebase
+>>>>>>> ae48f9db9d24ddfa33cebc9b5492f557bc18fe1c
