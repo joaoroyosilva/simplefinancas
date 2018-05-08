@@ -23,7 +23,7 @@ import { MaterialModule } from '../material.module';
 import { FirebaseService } from '../shared/services/firebase.service';
 import { ReceitaComponent } from './receita/receita.component';
 import { CategoriaLancamentoComponent } from './categoria-lancamento/categoria-lancamento.component';
-import { CategoriaModalComponent } from './categoria-lancamento/modal/categoria-modal.component';-categoria.component';
+import { CategoriaModalComponent } from './categoria-lancamento/modal/categoria-modal.component';
 import { ReceitaModalComponent } from './receita/modal/receita-modal.component';
 import { GraficosService } from '../shared/services/graficos.service';
 import { DespesaModalComponent } from './despesa/modal/despesa-modal.component';
@@ -47,7 +47,6 @@ import { DespesaComponent } from './despesa/despesa.component';
     //DeletaReceitaComponent,
     CategoriaLancamentoComponent,
     CategoriaModalComponent,
-    //DeletaCategoriaComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,10 +74,8 @@ import { DespesaComponent } from './despesa/despesa.component';
   ],
   entryComponents: [
     CategoriaModalComponent,
-    //DeletaCategoriaComponent,
     ReceitaModalComponent,
-    DespesaModalComponent,
-    //DeletaReceitaComponent
+    DespesaModalComponent
   ]
 })
 export class PainelModule { }
